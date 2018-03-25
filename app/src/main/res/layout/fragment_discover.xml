@@ -1,14 +1,114 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/discoverFragmentView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/discoverFragmentView"
-    tools:context="com.example.personal.shazamclone.discover.DiscoverFragment">
+    android:background="?attr/colorPrimary"
+    tools:context="com.example.personal.shazamclone.discover.DiscoverActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- SpinKit is just a progress view. We want it to show below every other view in this layout.
+    The width and height is set to fill the parent and the visibility by default is gone as we
+    don't want to show the progress view until the user clicks the button to start discovering songs.
+    The left & right constraint pairs centers the view horizontally and the top & bottom pair
+    centers it vertically. This is because when the left, right or top,bottom constraints are bigger
+    than the view it self, the view gets centered between the two constraints
+    i.e the bias is set to 50%.
+    The style of the Spinkit view is set to MultiplePulse, which shows progress like a ripple.
+    By placing it below every other View and centering it together with the ImageButton below,
+    we can easily create an illusion that the progress is coming out of the circle ImageButton below -->
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/discoverIdentifyProgressView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/SpinKitView.Large.MultiplePulse"/>
 
-</FrameLayout>
+    <!-- This is the Start listening/discovering button. Its an ImageButton with a circular
+     background and a mic icon. It is centered in the parent using the same constraint techniques
+     in the SpinKit progress view above -->
+
+    <ImageButton
+        android:id="@+id/discoverStartIdentifyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_circle_white"
+        android:padding="12dp"
+        android:contentDescription="@string/discoverActionStartIdentifyContentDesc"
+        app:srcCompat="@drawable/ic_mic_gray_24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- This is the Stop listening/discovering button. Its an ImageButton with a circular
+     background and a mic icon. It is centered in the parent using the same constraint techniques
+     in the Start ImageButton above -->
+
+    <ImageButton
+        android:id="@+id/discoverStopIdentifyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_circle_white"
+        android:padding="12dp"
+        android:visibility="gone"
+        android:contentDescription="@string/discoverActionStopIdentifyContentDesc"
+        app:srcCompat="@drawable/ic_mic_gray_24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- This is a simple TextView that is aligned to the bottom of the parent. It shows whether
+    the user is currently discovering songs or needs to tap the start button to starting
+    discovering -->
+
+    <TextView
+        android:id="@+id/discoverProgressStatusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/primary_text_light"
+        android:text="@string/discoverStatusTapToIdentify"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <!-- This is a simple ImageButton aligned to the parent top right. It shows a heart icon that
+    the user can click on to donate/support the developer -->
+
+    <ImageButton
+        android:id="@+id/discoverDonateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/discoverActionDonateContentDesc"
+        app:srcCompat="@drawable/ic_favorite_white_24dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Another simple ImageButton that is aligned to the parent top and to the left of the Donate
+    ImageButton. It shows a history icon that the user can click on to view the songs that they
+    previously discovered -->
+
+    <ImageButton
+        android:id="@+id/discoverHistoryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/discoverActionHistoryContentDesc"
+        app:srcCompat="@drawable/ic_history_white_24dp"
+        app:layout_constraintRight_toLeftOf="@id/discoverDonateButton"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
