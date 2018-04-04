@@ -1,5 +1,5 @@
 package com.example.personal.shazamclone.discover
-import com.example.personal.shazamclone.data.identify.Song
+import com.example.personal.shazamclone.domain.Song
 import com.example.personal.shazamclone.data.identify.SongIdentifyService
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock

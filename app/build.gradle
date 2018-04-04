@@ -104,4 +104,7 @@ dependencies {
     androidTestCompile "com.android.support.test.espresso:espresso-intents:$rootProject.ext.espressoVersion"
 
     testCompile "com.nhaarman:mockito-kotlin:1.1.0"
+
+    //for adding ACRCloud libraries in the project
+    compile files('libs/acrcloud-android-sdk-1.5.7.2.jar')
 }

@@ -2,7 +2,7 @@ package com.example.personal.shazamclone.discover
 
 import com.example.personal.shazamclone.BasePresenter
 import com.example.personal.shazamclone.BaseView
-import com.example.personal.shazamclone.data.identify.Song
+import com.example.personal.shazamclone.domain.Song
 
 /**
  * Created by personal on 3/26/2018.
