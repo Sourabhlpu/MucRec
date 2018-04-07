@@ -1,9 +1,5 @@
 package com.example.personal.shazamclone.discover
 
-import android.app.Application
-import android.content.Context
-import android.content.Intent
-import com.example.personal.shazamclone.data.identify.SongIdentifyService
 import com.example.personal.shazamclone.data.identify.SongIdentifyService.SongIdentificationCallback
 import com.example.personal.shazamclone.domain.Song
 
@@ -11,63 +7,101 @@ import com.example.personal.shazamclone.domain.Song
  * Created by personal on 3/26/2018.
  */
 
-class DiscoverPresenter(private val songIdentifyService : SongIdentifyService) : DiscoverContract.Presenter,
+class DiscoverPresenter: DiscoverContract.Presenter,
         SongIdentificationCallback
 {
 
     private lateinit var mDiscoverView : DiscoverContract.View
 
 
-
-
-
     override fun takeView(view: DiscoverContract.View) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
 
         mDiscoverView = view
+
+        mDiscoverView.setPresenter(this)
 
     }
 
     override fun dropView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        mDiscoverView.hashCode()
     }
 
     override fun onStartIdentifyButtonClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
 
         //start the service here
-        val intent = Intent(, SongIdentifyService :: class.java)
+        mDiscoverView.startSongIdentifyService()
 
+        mDiscoverView.hideStartIdentifyButtonView()
+        mDiscoverView.showStopIdentifyButtonView()
+        mDiscoverView.showIdentifyProgressView()
+        mDiscoverView.hideErrorViews()
     }
 
     override fun onStopIdentifyButtonClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
 
         //stop the service here
+        mDiscoverView.stopSongIdentifyService()
+
+
+        mDiscoverView.hideIdentifyProgressView()
+        mDiscoverView.hideStopIdentifyButtonView()
+        mDiscoverView.showStartIdentifyButtonView()
     }
 
     override fun onDonateButtonClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        mDiscoverView.openDonatePage()
     }
 
     override fun onHistoryButtonClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        mDiscoverView.openHistoryPage()
     }
 
     override fun onOfflineError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onGenericError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+
+        mDiscoverView.hideStartIdentifyButtonView()
+        mDiscoverView.showStopIdentifyButtonView()
+        mDiscoverView.showIdentifyProgressView()
+        mDiscoverView.hideErrorViews()
+
+        mDiscoverView.showIdentifyProgressView()
+
+        // And since the MusicIdentifyService could not identify a song because of a generic error,
+        // ensure that a call was made to show an offline error view
+        mDiscoverView.showGenericErrorView()
     }
 
     override fun onSongNotFound() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+
+        mDiscoverView.hideStartIdentifyButtonView()
+        mDiscoverView.showStopIdentifyButtonView()
+        mDiscoverView.showIdentifyProgressView()
+        mDiscoverView.hideErrorViews()
+        mDiscoverView.showIdentifyProgressView()
+
+        mDiscoverView.showNotFoundErrorView()
+
     }
 
     override fun onSongFound(song: Song) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        mDiscoverView.hideStartIdentifyButtonView()
+        mDiscoverView.showStopIdentifyButtonView()
+        mDiscoverView.showIdentifyProgressView()
+        mDiscoverView.hideErrorViews()
+
+        mDiscoverView.openSongDetailPage(song)
     }
 
 }

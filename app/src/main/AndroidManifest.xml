@@ -29,6 +29,8 @@
         <activity android:name=".songdetail.SongDetailActivity" />
         <activity android:name=".history.HistoryActivity" />
         <activity android:name=".donate.DonateActivity"></activity>
+
+        <service android:name=".data.identify.SongIdentifyService"/>
     </application>
 
 </manifest>

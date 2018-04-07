@@ -1,8 +1,9 @@
 package com.example.personal.shazamclone.discover
-import com.example.personal.shazamclone.domain.Song
 import com.example.personal.shazamclone.data.identify.SongIdentifyService
+import com.example.personal.shazamclone.domain.Song
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
 import org.junit.Before
@@ -16,19 +17,21 @@ import org.junit.Test
 class DiscoverPresenterTest{
 
     //variable holding a simple song object we will be using in some functions;
-    private val mSong = Song()
-
-    private val mSongIdentifyService : SongIdentifyService = mock()
+    private val mSong = Song("", "", "")
 
     private val mDiscoverView: DiscoverContract.View = mock()
+
+    private lateinit var mSongIdentifyService : SongIdentifyService
 
     private lateinit var mDiscoverPresenter: DiscoverContract.Presenter
 
     @Before
     fun setupDiscoverPresenter()
     {
-        mDiscoverPresenter = DiscoverPresenter(mSongIdentifyService)
+        mDiscoverPresenter = DiscoverPresenter()
         mDiscoverPresenter.takeView(mDiscoverView)
+
+        mSongIdentifyService = spy(SongIdentifyService(mDiscoverPresenter as DiscoverPresenter))
     }
 
     @After

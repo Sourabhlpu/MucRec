@@ -7,11 +7,18 @@ import com.example.personal.shazamclone.utils.FragmentUtils
 
 class DiscoverActivity : AppCompatActivity() {
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_discover)
 
+
+        val discoverFragment : DiscoverFragment = DiscoverFragment()
+
         FragmentUtils.addIfNotExists(supportFragmentManager,R.id.discoverFragmentContainer,
-                DiscoverFragment(), "DiscoverFragment")
+                discoverFragment, "DiscoverFragment")
+
+        DiscoverPresenter().takeView(discoverFragment)
     }
 }

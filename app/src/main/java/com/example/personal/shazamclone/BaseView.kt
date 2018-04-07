@@ -5,5 +5,5 @@ package com.example.personal.shazamclone
  */
 interface BaseView<P> {
 
-
+    fun setPresenter(presenter : P)
 }

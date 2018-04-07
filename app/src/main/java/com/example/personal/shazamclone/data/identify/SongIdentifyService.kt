@@ -16,27 +16,32 @@ import com.google.gson.Gson
  * Created by personal on 3/29/2018.
  */
 
-class SongIdentifyService(discoverPresenter : DiscoverPresenter) : IACRCloudListener , IntentService("SongIdentifyService") {
+class SongIdentifyService(discoverPresenter : DiscoverPresenter? = null) : IACRCloudListener , IntentService("SongIdentifyService") {
 
-    private val callback : SongIdentificationCallback = discoverPresenter
-    private val mClient : ACRCloudClient by lazy(LazyThreadSafetyMode.NONE) { ACRCloudClient() }
-    private val mConfig : ACRCloudConfig by lazy(LazyThreadSafetyMode.NONE) { ACRCloudConfig() }
+    private val callback : SongIdentificationCallback? = discoverPresenter
+    private val mClient : ACRCloudClient by lazy { ACRCloudClient() }
+    private val mConfig : ACRCloudConfig by lazy { ACRCloudConfig() }
     private var initState : Boolean = false
     private var mProcessing : Boolean = false
 
 
     override fun onHandleIntent(intent: Intent?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        Log.d("SongIdentifyService", "onHandeIntent called" )
 
         setUpConfig()
         addConfigToClient()
 
-        startIdentification(callback)
+        if (callback != null) {
+            startIdentification(callback)
+        }
 
     }
 
 
     public fun setUpConfig(){
+
+        Log.d("SongIdentifyService", "setupConfig called")
 
         mConfig.acrcloudListener = this@SongIdentifyService
 
@@ -51,6 +56,9 @@ class SongIdentifyService(discoverPresenter : DiscoverPresenter) : IACRCloudList
     // Called to start identifying/discovering the song that is currently playing
     fun startIdentification(callback: SongIdentificationCallback)
     {
+
+        Log.d("SongIdentifyService", "startIdentification called")
+
         if(!initState)
         {
             Log.d("AcrCloudImplementation", "init error")
@@ -70,6 +78,8 @@ class SongIdentifyService(discoverPresenter : DiscoverPresenter) : IACRCloudList
     // Called to stop identifying/discovering song
     fun stopIdentification()
     {
+
+        Log.d("SongIdentifyService", "stopIdentification called")
         if(mProcessing)
         {
             mClient.stopRecordToRecognize()
@@ -78,7 +88,7 @@ class SongIdentifyService(discoverPresenter : DiscoverPresenter) : IACRCloudList
         mProcessing = false
     }
 
-    public fun cancelListeningToIdentifySong()
+    fun cancelListeningToIdentifySong()
     {
         if(mProcessing)
         {
@@ -87,11 +97,13 @@ class SongIdentifyService(discoverPresenter : DiscoverPresenter) : IACRCloudList
         }
     }
 
-    public fun addConfigToClient(){
+    fun addConfigToClient(){
 
-        initState = mClient.initWithConfig(mConfig)
 
-        if(initState)
+
+        this.initState = mClient.initWithConfig(mConfig)
+
+        if(this.initState)
         {
             mClient.startPreRecord(3000)
         }
@@ -99,7 +111,9 @@ class SongIdentifyService(discoverPresenter : DiscoverPresenter) : IACRCloudList
 
 
     override fun onResult(result: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        Log.d("SongIdentifyService", "onResult called")
+        Log.d("SongIdentifyService",result)
 
         mClient.cancel()
         mProcessing = false
@@ -108,19 +122,21 @@ class SongIdentifyService(discoverPresenter : DiscoverPresenter) : IACRCloudList
 
         if(result.status.code == 3000)
         {
-            callback.onOfflineError()
+            callback!!.onOfflineError()
         }
         else if(result.status.code == 1001)
         {
-            callback.onSongNotFound()
+            callback!!.onSongNotFound()
         }
         else if(result.status.code == 0 )
         {
-            callback.onSongFound(MusicDataMapper().convertFromDataModel(result))
+            callback!!.onSongFound(MusicDataMapper().convertFromDataModel(result))
+
+            //callback!!.onSongFound(Song("", "", ""))
         }
         else
         {
-            callback.onGenericError()
+            callback!!.onGenericError()
         }
 
 

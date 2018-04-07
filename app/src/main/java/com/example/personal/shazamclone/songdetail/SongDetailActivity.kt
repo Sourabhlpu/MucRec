@@ -1,7 +1,8 @@
 package com.example.personal.shazamclone.songdetail
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import com.example.personal.shazamclone.R
 
 class SongDetailActivity : AppCompatActivity() {
 

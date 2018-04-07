@@ -8,16 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.personal.shazamclone.R
+import com.example.personal.shazamclone.data.identify.SongIdentifyService
 import com.example.personal.shazamclone.domain.Song
 import com.example.personal.shazamclone.history.HistoryActivity
 import com.example.personal.shazamclone.songdetail.SongDetailActivity
 import kotlinx.android.synthetic.main.fragment_discover.*
+import kotlinx.android.synthetic.main.fragment_discover.view.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class DiscoverFragment : Fragment(),DiscoverContract.View {
+open class DiscoverFragment : Fragment(),DiscoverContract.View {
+
+    private lateinit var mPresenter : DiscoverContract.Presenter
+
+
+    override fun setPresenter(presenter: DiscoverContract.Presenter) {
+
+        mPresenter = presenter
+    }
 
 
     override fun showIdentifyProgressView() {
@@ -25,49 +35,47 @@ class DiscoverFragment : Fragment(),DiscoverContract.View {
         discoverIdentifyProgressView.visibility = View.VISIBLE
     }
 
-    override fun hideIdentifyProgressView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override public fun hideIdentifyProgressView() {
+
         discoverIdentifyProgressView.visibility = View.GONE
     }
 
     override fun showStartIdentifyButtonView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
         discoverStartIdentifyButton.visibility = View.VISIBLE
     }
 
     override fun hideStartIdentifyButtonView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
         discoverStartIdentifyButton.visibility = View.GONE
     }
 
     override fun showStopIdentifyButtonView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
         discoverStopIdentifyButton.visibility = View.VISIBLE
     }
 
     override fun hideStopIdentifyButtonView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
         discoverStopIdentifyButton.visibility = View.GONE
     }
 
     override fun showOfflineErrorView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun showGenericErrorView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun showNotFoundErrorView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun hideErrorViews() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun openSongDetailPage(song: Song) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 
         val intent = Intent(activity, SongDetailActivity::class.java)
 
@@ -78,13 +86,12 @@ class DiscoverFragment : Fragment(),DiscoverContract.View {
     }
 
     override fun openDonatePage() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         val intent = Intent(activity, HistoryActivity::class.java)
         startActivity(intent)
     }
 
     override fun openHistoryPage() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
         val intent = Intent(activity, HistoryActivity ::class.java)
 
         startActivity(intent)
@@ -95,7 +102,32 @@ class DiscoverFragment : Fragment(),DiscoverContract.View {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_discover, container, false)
+        var rootView = inflater.inflate(R.layout.fragment_discover, container, false)
+
+        rootView.discoverStartIdentifyButton.setOnClickListener {
+            mPresenter.onStartIdentifyButtonClicked()
+        }
+
+        return rootView
     }
 
+    override fun startSongIdentifyService() {
+
+        val intent = Intent(activity, SongIdentifyService :: class.java)
+
+        activity!!.startService(intent)
+    }
+
+    override fun stopSongIdentifyService() {
+
+        val intent = Intent(activity, SongIdentifyService :: class.java)
+
+        activity!!.stopService(intent)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        mPresenter.dropView()
+    }
 }// Required empty public constructor

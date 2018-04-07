@@ -35,6 +35,10 @@ interface  DiscoverContract{
         fun openSongDetailPage(song: Song)
         fun openDonatePage()
         fun openHistoryPage()
+
+        // start or stop the service
+        fun startSongIdentifyService()
+        fun stopSongIdentifyService()
     }
 
     interface Presenter: BasePresenter<View> {
