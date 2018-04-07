@@ -43,14 +43,27 @@ class SongIdentifyService(discoverPresenter : DiscoverPresenter? = null) : IACRC
 
         Log.d("SongIdentifyService", "setupConfig called")
 
-        mConfig.acrcloudListener = this@SongIdentifyService
+        this.mConfig.acrcloudListener = this@SongIdentifyService
 
-        mConfig.host = "identify-eu-west-1.acrcloud.com"
-        mConfig.accessKey = "ff98c0119a6fc307cde6e3708b6eeac6"
-        mConfig.accessSecret = "fC1U4vP1eT5X24dIqrmnUB9px1t4LTZRmzQCC8Tm"
-        mConfig.protocol = ACRCloudConfig.ACRCloudNetworkProtocol.PROTOCOL_HTTP // PROTOCOL_HTTPS
-        mConfig.reqMode = ACRCloudConfig.ACRCloudRecMode.REC_MODE_REMOTE
+        this.mConfig.host = "identify-eu-west-1.acrcloud.com"
+        this.mConfig.accessKey = "ff98c0119a6fc307cde6e3708b6eeac6"
+        this.mConfig.accessSecret = "fC1U4vP1eT5X24dIqrmnUB9px1t4LTZRmzQCC8Tm"
+        this.mConfig.protocol = ACRCloudConfig.ACRCloudNetworkProtocol.PROTOCOL_HTTP // PROTOCOL_HTTPS
+        this.mConfig.reqMode = ACRCloudConfig.ACRCloudRecMode.REC_MODE_REMOTE
 
+    }
+
+    fun addConfigToClient(){
+
+        Log.d("SongIdentifyService", "addConfigToClient called")
+
+
+        this.initState = this.mClient.initWithConfig(this.mConfig)
+
+        if(this.initState)
+        {
+            this.mClient.startPreRecord(3000)
+        }
     }
 
     // Called to start identifying/discovering the song that is currently playing
@@ -94,18 +107,6 @@ class SongIdentifyService(discoverPresenter : DiscoverPresenter? = null) : IACRC
         {
             mProcessing = false
             mClient.cancel()
-        }
-    }
-
-    fun addConfigToClient(){
-
-
-
-        this.initState = mClient.initWithConfig(mConfig)
-
-        if(this.initState)
-        {
-            mClient.startPreRecord(3000)
         }
     }
 
