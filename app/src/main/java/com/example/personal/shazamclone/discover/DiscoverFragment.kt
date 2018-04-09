@@ -93,6 +93,9 @@ open class DiscoverFragment : Fragment(),DiscoverContract.View, IACRCloudListene
 
     override fun openSongDetailPage(song: Song) {
 
+        Log.d("DiscoverFragment", "album " + song.album + ", artist " + song.artist +
+        ", name " + song.name)
+
         val intent = Intent(activity, SongDetailActivity::class.java)
 
         //have to pass the song object so as to display the song details;
@@ -206,15 +209,17 @@ open class DiscoverFragment : Fragment(),DiscoverContract.View, IACRCloudListene
     }
 
 
-    override fun onResult(result: String?) {
+    override fun onResult(resultString: String?) {
 
         Log.d("DiscoverFragment", "onResult called")
-        Log.d("DiscoverFragment",result)
+        Log.d("DiscoverFragment",resultString)
 
         mClient.cancel()
         mProcessing = false
 
-        val result = Gson().fromJson(result, ResponseClasses.SongIdentificationResult:: class.java)
+        val result = Gson().fromJson(resultString, ResponseClasses.SongIdentificationResult:: class.java)
+
+        Log.d("DiscoverFragment", "parsed result " + result)
 
         if(result.status.code == 3000)
         {

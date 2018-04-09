@@ -10,11 +10,11 @@ class MusicDataMapper{
 
     fun convertFromDataModel(songIdentificationResult : SongIdentificationResult) : Song {
 
-        return Song(songIdentificationResult.metaData.music.get(0).title,
-                songIdentificationResult.metaData.music.get(0).artists.joinToString(
+        return Song(songIdentificationResult.metadata.music[0].title,
+                songIdentificationResult.metadata.music[0].artists.joinToString(
                         ",", "", "", -1, "...", null
                 ),
-                songIdentificationResult.metaData.music.get(0).album.name)
+                songIdentificationResult.metadata.music[0].album.name)
     }
 
 }
