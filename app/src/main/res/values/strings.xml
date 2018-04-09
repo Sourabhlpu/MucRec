@@ -10,5 +10,7 @@
     <string name="discoverActionStartIdentifyContentDesc">Start identifying music</string>
     <string name="discoverActionStopIdentifyContentDesc">Stop identifying music</string>
     <string name="discoverStatusTapToIdentify">Tap to identify</string>
+    <string name="permission_rationale">Audio recording permissions are requered for this app</string>
+    <string name="ok">Ok</string>
     <!-- Discover Page End -->
 </resources>
