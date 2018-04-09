@@ -4,14 +4,21 @@ package com.example.personal.shazamclone.discover
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.acrcloud.rec.sdk.ACRCloudClient
+import com.acrcloud.rec.sdk.ACRCloudConfig
+import com.acrcloud.rec.sdk.IACRCloudListener
 import com.example.personal.shazamclone.R
-import com.example.personal.shazamclone.data.identify.SongIdentifyService
+import com.example.personal.shazamclone.data.identify.ResponseClasses
+import com.example.personal.shazamclone.data.identify.SongIdentificationCallback
+import com.example.personal.shazamclone.domain.MusicDataMapper
 import com.example.personal.shazamclone.domain.Song
 import com.example.personal.shazamclone.history.HistoryActivity
 import com.example.personal.shazamclone.songdetail.SongDetailActivity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.fragment_discover.view.*
 
@@ -19,9 +26,13 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
 /**
  * A simple [Fragment] subclass.
  */
-open class DiscoverFragment : Fragment(),DiscoverContract.View {
+open class DiscoverFragment : Fragment(),DiscoverContract.View, IACRCloudListener, SongIdentificationCallback {
 
     private lateinit var mPresenter : DiscoverContract.Presenter
+    private val mClient : ACRCloudClient by lazy { ACRCloudClient() }
+    private val mConfig : ACRCloudConfig by lazy { ACRCloudConfig() }
+    private var initState : Boolean = false
+    private var mProcessing : Boolean = false
 
 
     override fun setPresenter(presenter: DiscoverContract.Presenter) {
@@ -62,17 +73,22 @@ open class DiscoverFragment : Fragment(),DiscoverContract.View {
 
     override fun showOfflineErrorView() {
 
+        Log.d("DiscoverFragment", "Offline Error")
     }
 
     override fun showGenericErrorView() {
 
+        Log.d("DiscoverFragment", "Generic Error")
     }
 
     override fun showNotFoundErrorView() {
 
+        Log.d("DiscoverFragment", "Not Found Error")
     }
 
     override fun hideErrorViews() {
+
+        Log.d("DiscoverFragment", "hide all errors")
     }
 
     override fun openSongDetailPage(song: Song) {
@@ -98,6 +114,38 @@ open class DiscoverFragment : Fragment(),DiscoverContract.View {
     }
 
 
+
+
+
+
+    fun setUpConfig(){
+
+        Log.d("DiscoverFragment", "setupConfig called")
+
+        this.mConfig.acrcloudListener = this@DiscoverFragment
+
+        this.mConfig.host = "identify-eu-west-1.acrcloud.com"
+        this.mConfig.accessKey = "ff98c0119a6fc307cde6e3708b6eeac6"
+        this.mConfig.accessSecret = "fC1U4vP1eT5X24dIqrmnUB9px1t4LTZRmzQCC8Tm"
+        this.mConfig.protocol = ACRCloudConfig.ACRCloudNetworkProtocol.PROTOCOL_HTTP // PROTOCOL_HTTPS
+        this.mConfig.reqMode = ACRCloudConfig.ACRCloudRecMode.REC_MODE_REMOTE
+
+    }
+
+    fun addConfigToClient(){
+
+        Log.d("DiscoverFragment", "addConfigToClient called")
+
+
+        this.initState = this.mClient.initWithConfig(this.mConfig)
+
+        if(this.initState)
+        {
+            this.mClient.startPreRecord(3000)
+        }
+    }
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -111,18 +159,99 @@ open class DiscoverFragment : Fragment(),DiscoverContract.View {
         return rootView
     }
 
+
+
+    // Called to start identifying/discovering the song that is currently playing
+    fun startIdentification(callback: SongIdentificationCallback)
+    {
+
+        Log.d("DiscoverFragment", "startIdentification called")
+
+        if(!initState)
+        {
+            Log.d("AcrCloudImplementation", "init error")
+        }
+        if(!mProcessing) {
+
+            mProcessing = true
+            if (!mClient.startRecognize()) {
+
+                mProcessing = false
+                Log.d("AcrCloudImplementation" , "start error")
+
+            }
+        }
+    }
+
+    // Called to stop identifying/discovering song
+    fun stopIdentification()
+    {
+
+        Log.d("DiscoverFragment", "stopIdentification called")
+        if(mProcessing)
+        {
+            mClient.stopRecordToRecognize()
+        }
+
+        mProcessing = false
+    }
+
+    fun cancelListeningToIdentifySong()
+    {
+        if(mProcessing)
+        {
+            mProcessing = false
+            mClient.cancel()
+        }
+    }
+
+
+    override fun onResult(result: String?) {
+
+        Log.d("DiscoverFragment", "onResult called")
+        Log.d("DiscoverFragment",result)
+
+        mClient.cancel()
+        mProcessing = false
+
+        val result = Gson().fromJson(result, ResponseClasses.SongIdentificationResult:: class.java)
+
+        if(result.status.code == 3000)
+        {
+            onOfflineError()
+        }
+        else if(result.status.code == 1001)
+        {
+            onSongNotFound()
+        }
+        else if(result.status.code == 0 )
+        {
+            onSongFound(MusicDataMapper().convertFromDataModel(result))
+        }
+        else
+        {
+            onGenericError()
+        }
+
+
+    }
+
+    override fun onVolumeChanged(p0: Double) {
+
+    }
+
     override fun startSongIdentifyService() {
 
-        val intent = Intent(activity, SongIdentifyService :: class.java)
+        setUpConfig()
+        addConfigToClient()
 
-        activity!!.startService(intent)
+        startIdentification(this@DiscoverFragment)
+
     }
 
     override fun stopSongIdentifyService() {
 
-        val intent = Intent(activity, SongIdentifyService :: class.java)
-
-        activity!!.stopService(intent)
+      stopIdentification()
     }
 
     override fun onPause() {
@@ -130,4 +259,40 @@ open class DiscoverFragment : Fragment(),DiscoverContract.View {
 
         mPresenter.dropView()
     }
-}// Required empty public constructor
+
+    override fun onOfflineError() {
+
+    }
+
+    override fun onGenericError() {
+        hideStartIdentifyButtonView()
+        showStopIdentifyButtonView()
+        showIdentifyProgressView()
+        hideErrorViews()
+
+        showIdentifyProgressView()
+
+        // And since the MusicIdentifyService could not identify a song because of a generic error,
+        // ensure that a call was made to show an offline error view
+        showGenericErrorView()
+    }
+
+    override fun onSongNotFound() {
+        hideStartIdentifyButtonView()
+        showStopIdentifyButtonView()
+        showIdentifyProgressView()
+        hideErrorViews()
+        showIdentifyProgressView()
+
+        showNotFoundErrorView()
+    }
+
+    override fun onSongFound(song: Song) {
+        hideStartIdentifyButtonView()
+        showStopIdentifyButtonView()
+        showIdentifyProgressView()
+        hideErrorViews()
+        openSongDetailPage(song)
+    }
+
+}
