@@ -12,5 +12,18 @@
     <string name="discoverStatusTapToIdentify">Tap to identify</string>
     <string name="permission_rationale">Audio recording permissions are requered for this app</string>
     <string name="ok">Ok</string>
+
+
+      <!-- String for passing extras to the intent that launches song details page -->
+
+    <string name="song_name_extra">songName</string>
+    <string name="song_album_extra">albumName</string>
+    <string name="song_artist_extra">songArtist</string>
     <!-- Discover Page End -->
+
+    <!-- Song details page -->
+
+    <string name="name_label">Name:</string>
+    <string name="artist_label">Artist:</string>
+    <string name="album_label">Album:</string>
 </resources>

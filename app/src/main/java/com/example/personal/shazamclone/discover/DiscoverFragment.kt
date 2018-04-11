@@ -25,8 +25,7 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
 
 /**
  * A simple [Fragment] subclass.
- */
-open class DiscoverFragment : Fragment(),DiscoverContract.View, IACRCloudListener, SongIdentificationCallback {
+ */ class DiscoverFragment : Fragment(),DiscoverContract.View, IACRCloudListener, SongIdentificationCallback {
 
     private lateinit var mPresenter : DiscoverContract.Presenter
     private val mClient : ACRCloudClient by lazy { ACRCloudClient() }
@@ -99,6 +98,12 @@ open class DiscoverFragment : Fragment(),DiscoverContract.View, IACRCloudListene
         val intent = Intent(activity, SongDetailActivity::class.java)
 
         //have to pass the song object so as to display the song details;
+
+        intent.putExtra(getString(R.string.song_name_extra), song.name)
+
+        intent.putExtra(getString(R.string.song_album_extra), song.album)
+
+        intent.putExtra(getString(R.string.song_artist_extra), song.artist)
 
         startActivity(intent)
 

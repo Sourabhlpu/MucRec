@@ -1,5 +1,6 @@
 package com.example.personal.shazamclone.domain
 
+import com.example.personal.shazamclone.data.identify.ResponseClasses.Artists
 import com.example.personal.shazamclone.data.identify.ResponseClasses.SongIdentificationResult
 
 /**
@@ -10,11 +11,15 @@ class MusicDataMapper{
 
     fun convertFromDataModel(songIdentificationResult : SongIdentificationResult) : Song {
 
-        return Song(songIdentificationResult.metadata.music[0].title,
-                songIdentificationResult.metadata.music[0].artists.joinToString(
-                        ",", "", "", -1, "...", null
-                ),
-                songIdentificationResult.metadata.music[0].album.name)
+        return Song(songIdentificationResult.metadata.music.get(0).title,
+                convertArtistsToString(songIdentificationResult.metadata.music[0].artists),
+                songIdentificationResult.metadata.music.get(0).album.name)
+    }
+
+    fun convertArtistsToString(artists : List<Artists>) : String {
+
+        return artists.map { it.name }.joinToString (",","", "", 3,
+                "...")
     }
 
 }

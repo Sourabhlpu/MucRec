@@ -26,6 +26,8 @@ class DiscoverActivity : AppCompatActivity() {
 
         DiscoverPresenter().takeView(discoverFragment)
 
+
+
         if(!checkPermissions())
         {
             requestPermissions()
@@ -66,4 +68,6 @@ class DiscoverActivity : AppCompatActivity() {
                     REQUEST_PERMISSIONS_CODE)
         }
     }
+
+
 }

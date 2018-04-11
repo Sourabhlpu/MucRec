@@ -34,11 +34,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".songdetail.SongDetailActivity" />
+        <activity
+            android:name=".songdetail.SongDetailActivity"
+            android:parentActivityName=".discover.DiscoverActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".discover.DiscoverActivity"/>
+        </activity>
         <activity android:name=".history.HistoryActivity" />
         <activity android:name=".donate.DonateActivity"></activity>
 
-        <service android:name=".data.identify.SongIdentifyService"/>
+
     </application>
 
 </manifest>
