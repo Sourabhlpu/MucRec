@@ -13,7 +13,8 @@ class MusicDataMapper{
 
         return Song(songIdentificationResult.metadata.music.get(0).title,
                 convertArtistsToString(songIdentificationResult.metadata.music[0].artists),
-                songIdentificationResult.metadata.music.get(0).album.name)
+                songIdentificationResult.metadata.music.get(0).album.name,
+                songIdentificationResult.metadata.music.get(0).external_metadata.youtube.vid)
     }
 
     fun convertArtistsToString(artists : List<Artists>) : String {

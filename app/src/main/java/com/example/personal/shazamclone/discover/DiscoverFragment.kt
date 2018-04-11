@@ -105,6 +105,8 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
 
         intent.putExtra(getString(R.string.song_artist_extra), song.artist)
 
+        intent.putExtra(getString(R.string.song_youtube_id), song.youtubeLink)
+
         startActivity(intent)
 
     }

@@ -6,9 +6,14 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.example.personal.shazamclone.R
 import com.example.personal.shazamclone.utils.FragmentUtils
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
+import com.google.android.youtube.player.YouTubePlayerFragment
 import kotlinx.android.synthetic.main.activity_song_detail.*
 
 class SongDetailActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +29,10 @@ class SongDetailActivity : AppCompatActivity() {
 
         FragmentUtils.addIfNotExists(supportFragmentManager, R.id.songDetailFragmentContainer,
                 songDetailFragment, "SongDetailFragment")
+
+
+        setUpYoutubePlayer()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -34,5 +43,26 @@ class SongDetailActivity : AppCompatActivity() {
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun setUpYoutubePlayer()
+    {
+        val youtubeFragment = fragmentManager.findFragmentById(R.id.songYoutubeFragment)
+                as YouTubePlayerFragment
+
+        youtubeFragment.initialize(getString(R.string.youtube_api_key),
+                object : YouTubePlayer.OnInitializedListener {
+                    override fun onInitializationSuccess(provider: YouTubePlayer.Provider,
+                                                         youTubePlayer: YouTubePlayer, b: Boolean) {
+                        // do any work here to cue video, play video, etc.
+                        youTubePlayer.cueVideo(intent.getStringExtra(getString(R.string.song_youtube_id)))
+                    }
+
+                    override fun onInitializationFailure(provider: YouTubePlayer.Provider,
+                                                         youTubeInitializationResult: YouTubeInitializationResult) {
+
+                    }
+                })
+
     }
 }

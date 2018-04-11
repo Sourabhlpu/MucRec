@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
 
   rootView.album_name.text = activity!!.intent.extras.getString(getString(R.string.song_album_extra))
 
+
   return rootView
  }
 }

@@ -6,5 +6,5 @@ package com.example.personal.shazamclone.domain
 
 // A class that will hold information about the song that was identified/discovered. For now, it will have no properties. In future parts,
 // we will update this class to include properties.
-data class Song(val name : String, val artist : String, val album : String)
+data class Song(val name : String, val artist : String, val album : String, val youtubeLink : String)
 

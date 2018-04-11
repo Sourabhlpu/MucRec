@@ -21,7 +21,7 @@ class ResponseClasses {
 
     data class ExternalIds(val isrc: String, val upc: String)
 
-    data class ExternalMetadata(val spotify : Spotify)
+    data class ExternalMetadata(val spotify : Spotify, val youtube : Youtube)
 
     data class Spotify(val album : SpotifyAlbum, val artists : List<SpotifyArtists>, val track : Track)
 
@@ -34,4 +34,6 @@ class ResponseClasses {
     data class Album(val name : String)
 
     data class Artists(val name : String)
+
+    data class Youtube(val vid : String)
 }

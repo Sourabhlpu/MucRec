@@ -19,11 +19,15 @@
     <string name="song_name_extra">songName</string>
     <string name="song_album_extra">albumName</string>
     <string name="song_artist_extra">songArtist</string>
+    <string name="song_youtube_id">vidId</string>
     <!-- Discover Page End -->
 
-    <!-- Song details page -->
+    <!-- Song details page start-->
 
     <string name="name_label">Name:</string>
     <string name="artist_label">Artist:</string>
     <string name="album_label">Album:</string>
+    <string name="youtube_api_key">AIzaSyBOxkCRPooDWS7zyC5tQR0_SWTSAdI_XUk</string>
+
+    <!-- Song details page end -->
 </resources>
