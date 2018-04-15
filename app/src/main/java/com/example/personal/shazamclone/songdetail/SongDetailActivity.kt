@@ -56,6 +56,7 @@ class SongDetailActivity : AppCompatActivity() {
                                                          youTubePlayer: YouTubePlayer, b: Boolean) {
                         // do any work here to cue video, play video, etc.
                         youTubePlayer.cueVideo(intent.getStringExtra(getString(R.string.song_youtube_id)))
+
                     }
 
                     override fun onInitializationFailure(provider: YouTubePlayer.Provider,

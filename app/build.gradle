@@ -107,4 +107,7 @@ dependencies {
     //for adding ACRCloud libraries in the project
     compile files('libs/acrcloud-android-sdk-1.5.7.2.jar')
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+
+    implementation files('libs/google-api-services-youtube-v3-rev193-1.23.0.jar')
+
 }

@@ -42,32 +42,44 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
 
     override fun showIdentifyProgressView() {
 
+        Log.d("DiscoverFragment", "showing identifyProgressView")
+
         discoverIdentifyProgressView.visibility = View.VISIBLE
     }
 
-    override public fun hideIdentifyProgressView() {
+    override fun hideIdentifyProgressView() {
 
         discoverIdentifyProgressView.visibility = View.GONE
+
+        Log.d("DiscoverFragment", "hiding identifyProgressView")
     }
 
     override fun showStartIdentifyButtonView() {
 
         discoverStartIdentifyButton.visibility = View.VISIBLE
+
+        Log.d("DiscoverFragment", "showing startIdentifyButtonView")
     }
 
     override fun hideStartIdentifyButtonView() {
 
         discoverStartIdentifyButton.visibility = View.GONE
+
+        Log.d("DiscoverFragment", "hiding startIdentifyButtonView")
     }
 
     override fun showStopIdentifyButtonView() {
 
         discoverStopIdentifyButton.visibility = View.VISIBLE
+
+        Log.d("DiscoverFragment", "showing stopIdentifyButtonView")
     }
 
     override fun hideStopIdentifyButtonView() {
 
         discoverStopIdentifyButton.visibility = View.GONE
+
+        Log.d("DiscoverFragment", "hiding stopIdentifyButtonView")
     }
 
     override fun showOfflineErrorView() {
@@ -123,11 +135,6 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
         startActivity(intent)
     }
 
-
-
-
-
-
     fun setUpConfig(){
 
         Log.d("DiscoverFragment", "setupConfig called")
@@ -164,6 +171,11 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
 
         rootView.discoverStartIdentifyButton.setOnClickListener {
             mPresenter.onStartIdentifyButtonClicked()
+        }
+
+        rootView.discoverStopIdentifyButton.setOnClickListener{
+
+            mPresenter.onStopIdentifyButtonClicked()
         }
 
         return rootView
@@ -264,6 +276,7 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
     override fun stopSongIdentifyService() {
 
       stopIdentification()
+        cancelListeningToIdentifySong()
     }
 
     override fun onPause() {
