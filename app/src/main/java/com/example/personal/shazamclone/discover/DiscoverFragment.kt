@@ -3,6 +3,8 @@ package com.example.personal.shazamclone.discover
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +15,7 @@ import com.acrcloud.rec.sdk.ACRCloudConfig
 import com.acrcloud.rec.sdk.IACRCloudListener
 import com.example.personal.shazamclone.R
 import com.example.personal.shazamclone.data.identify.ResponseClasses
+import com.example.personal.shazamclone.data.identify.ResponseClasses.SongIdentificationResult
 import com.example.personal.shazamclone.data.identify.SongIdentificationCallback
 import com.example.personal.shazamclone.domain.MusicDataMapper
 import com.example.personal.shazamclone.domain.Song
@@ -32,6 +35,8 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
     private val mConfig : ACRCloudConfig by lazy { ACRCloudConfig() }
     private var initState : Boolean = false
     private var mProcessing : Boolean = false
+
+    private val handler : Handler by lazy{ Handler(Looper.getMainLooper())}
 
 
     override fun setPresenter(presenter: DiscoverContract.Presenter) {
@@ -250,7 +255,18 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
         }
         else if(result.status.code == 0 )
         {
-            onSongFound(MusicDataMapper().convertFromDataModel(result))
+
+            if(result.metadata.music.get(0).external_metadata.youtube != null) {
+
+                Log.d("DiscoverFragment", "get youtube vid id from ACRCloud")
+
+                onSongFound(MusicDataMapper().convertFromDataModel(result))
+            }else
+            {
+                Log.d("DiscoverFragment", "didn't get youtube vid id from ACRCloud")
+                startThreadToSearchYoutube(result.metadata.music.get(0).title,
+                        result.metadata.music.get(0).album.name, result)
+            }
         }
         else
         {
@@ -319,5 +335,28 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
         hideErrorViews()
         openSongDetailPage(song)
     }
+
+    fun startThreadToSearchYoutube(title : String, album : String, result : SongIdentificationResult)
+    {
+        Log.d("DiscoverFragment", "startThreadToSearchYoutube called")
+       object : Thread(){
+
+          override fun run(){
+
+              val  vidId = DiscoverPresenter.searchYoutubeAndGetVidId("$title, $album")
+
+                System.out.println("DiscoverFragment, got the vid id from thread $vidId")
+
+                handler.post{
+
+                    onSongFound(MusicDataMapper().convertFromDataModel(result, vidId))
+                }
+
+
+            }
+        }.start()
+
+    }
+
 
 }

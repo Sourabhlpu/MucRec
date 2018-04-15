@@ -9,12 +9,23 @@ import com.example.personal.shazamclone.data.identify.ResponseClasses.SongIdenti
 
 class MusicDataMapper{
 
-    fun convertFromDataModel(songIdentificationResult : SongIdentificationResult) : Song {
 
-        return Song(songIdentificationResult.metadata.music.get(0).title,
-                convertArtistsToString(songIdentificationResult.metadata.music[0].artists),
-                songIdentificationResult.metadata.music.get(0).album.name,
-                songIdentificationResult.metadata.music.get(0).external_metadata.youtube.vid)
+    fun convertFromDataModel(songIdentificationResult : SongIdentificationResult,
+                             vidId : String? = null):Song {
+
+
+        val title = songIdentificationResult.metadata.music[0].title
+        val artists = convertArtistsToString(songIdentificationResult.metadata.music[0].artists)
+        val albumName = songIdentificationResult.metadata.music[0].album.name
+        var videoId : String? = vidId
+
+        if(videoId == null)
+        {
+            videoId = songIdentificationResult.metadata.music.get(0).external_metadata.youtube.vid
+        }
+        return Song(title,artists,albumName, videoId!!)
+
+
     }
 
     fun convertArtistsToString(artists : List<Artists>) : String {

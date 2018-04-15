@@ -18,27 +18,62 @@ import java.io.IOException
 class DiscoverPresenter: DiscoverContract.Presenter
 
 {
+
+
     private lateinit var mDiscoverView : DiscoverContract.View
 
-    private val youtube : YouTube by lazy {
 
-        YouTube.Builder(NetHttpTransport(), JacksonFactory(), HttpRequestInitializer {  })
-                .setApplicationName(App.instance.getString(R.string.app_name)).build()
-    }
 
-    private lateinit var query: YouTube.Search.List
 
-    private fun initQuery()
-    {
-        try {
-            query = youtube.search().list("id,snippet")
-            query.key = App.instance.getString(R.string.youtube_api_key)
-            query.type = "video"
-            query.fields = "items(id/videoId,snippet/title)"
-        }catch (e : IOException){
+    companion object {
 
-            Log.d("Discover Presenter", "Could not initialize: " + e)
+        private val youtube : YouTube by lazy {
+
+            YouTube.Builder(NetHttpTransport(), JacksonFactory(), HttpRequestInitializer {  })
+                    .setApplicationName(App.instance.getString(R.string.app_name)).build()
         }
+
+
+        private lateinit var query: YouTube.Search.List
+
+        private fun initQuery()
+        {
+            try {
+                query = youtube.search().list("id,snippet")
+                query.key = App.instance.getString(R.string.youtube_api_key)
+                query.type = "video"
+                query.fields = "items(id/videoId,snippet/title)"
+            }catch (e : IOException){
+
+                Log.d("Discover Presenter", "Could not initialize: " + e)
+            }
+        }
+
+        fun searchYoutubeAndGetVidId(keywords : String) : String {
+
+            initQuery()
+
+            lateinit var vidId : String
+
+            query.setQ(keywords)
+
+            try{
+
+                val response : SearchListResponse = query.execute()
+
+                 vidId = response.items.get(0).id.videoId
+
+                Log.d("DiscoverPresenter ", "video id is $vidId")
+            }
+            catch (e : IOException)
+            {
+                Log.d("Discover Presenter", "Could not search: " + e)
+            }
+
+            return vidId
+        }
+
+
     }
 
 
@@ -90,23 +125,7 @@ class DiscoverPresenter: DiscoverContract.Presenter
         mDiscoverView.openHistoryPage()
     }
 
-    override fun searchYoutubeAndGetVidId(keywords : String) {
 
-        initQuery()
-
-        query.setQ(keywords)
-
-        try{
-
-            val response : SearchListResponse = query.execute()
-
-            val vidId = response.items.get(0).id.videoId
-        }
-        catch (e : IOException)
-        {
-            Log.d("Discover Presenter", "Could not search: " + e)
-        }
-    }
 
 
 }

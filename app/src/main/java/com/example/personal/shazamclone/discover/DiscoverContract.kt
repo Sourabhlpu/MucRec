@@ -55,9 +55,5 @@ interface  DiscoverContract{
         // Called when the user clicks on the history button
         fun onHistoryButtonClicked()
 
-        // called when we don't have a video id and we have to find it ourselves
-        fun searchYoutubeAndGetVidId(keyWords : String)
-
-
     }
 }

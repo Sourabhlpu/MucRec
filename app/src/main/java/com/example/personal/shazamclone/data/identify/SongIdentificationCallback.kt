@@ -19,5 +19,5 @@ interface SongIdentificationCallback {
         // Called when identification completed and a matching song was found
         fun onSongFound(song: Song)
 
-    }
+}
 
