@@ -334,6 +334,7 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
         showIdentifyProgressView()
         hideErrorViews()
         openSongDetailPage(song)
+        mPresenter.saveSongLocally(song)
     }
 
     fun startThreadToSearchYoutube(title : String, album : String, result : SongIdentificationResult)

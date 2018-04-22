@@ -55,5 +55,9 @@ interface  DiscoverContract{
         // Called when the user clicks on the history button
         fun onHistoryButtonClicked()
 
+       // This function is required to save the discovered song to the local database
+        fun saveSongLocally(song : Song)
+
+
     }
 }
