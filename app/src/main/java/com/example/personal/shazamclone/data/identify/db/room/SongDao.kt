@@ -4,7 +4,6 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
-import com.example.personal.shazamclone.domain.Song
 
 /**
  * Created by personal on 4/20/2018.
@@ -13,8 +12,11 @@ import com.example.personal.shazamclone.domain.Song
 interface SongDao{
 
     @Query("SELECT * FROM songData")
-     fun getAll() : List<Song>
+     fun getAll() : List<SongEntity>
 
     @Insert(onConflict = REPLACE)
-     fun insert(song : Song)
+     fun insert(song : SongEntity)
+
+    @Query("SELECT COUNT(id) From songData")
+     fun getSongCount() : Int
 }

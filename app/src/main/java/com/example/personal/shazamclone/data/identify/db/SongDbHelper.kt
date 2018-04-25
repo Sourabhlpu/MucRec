@@ -1,3 +1,4 @@
+/*
 package com.example.personal.shazamclone.data.identify.db
 
 import android.content.Context
@@ -5,9 +6,11 @@ import android.database.sqlite.SQLiteDatabase
 import com.example.personal.shazamclone.utils.App
 import org.jetbrains.anko.db.*
 
+*/
 /**
  * Created by personal on 4/18/2018.
- */
+ *//*
+
 
 class SongDbHelper(ctx : Context  = App.instance) : ManagedSQLiteOpenHelper(ctx,
         SongDbHelper.DB_NAME, null, SongDbHelper.DB_VERSION){
@@ -35,4 +38,4 @@ class SongDbHelper(ctx : Context  = App.instance) : ManagedSQLiteOpenHelper(ctx,
         db.dropTable(SongTable.NAME, true)
         onCreate(db)
     }
-}
+}*/

@@ -46,6 +46,7 @@ ext {
     espressoVersion = '3.0.1'
     kotlinMockitoVersion = '0.1.2'
     anko_version = "0.10.4"
+    room_version = "1.0.0"
 
 }
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/album_art_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/lorde_album"
+        android:scaleType="fitXY"
+        android:layout_margin="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/song_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text = "Set fire to rain"
+        android:textStyle="bold"
+        android:layout_marginLeft="30dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintLeft_toRightOf="@id/album_art_image"
+        app:layout_constraintTop_toTopOf="@id/album_art_image"/>
+
+    <TextView
+        android:id="@+id/song_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:text="Adele"
+        app:layout_constraintLeft_toLeftOf="@id/song_title"
+        app:layout_constraintTop_toBottomOf="@id/song_title"/>
+
+
+    <TextView
+        android:id="@+id/song_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:text="21"
+        app:layout_constraintTop_toBottomOf="@id/song_artist"
+        app:layout_constraintLeft_toLeftOf="@id/song_artist"/>
+</android.support.constraint.ConstraintLayout>

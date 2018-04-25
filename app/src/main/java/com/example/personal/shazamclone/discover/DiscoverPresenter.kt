@@ -3,7 +3,7 @@ package com.example.personal.shazamclone.discover
 import android.util.Log
 import com.example.personal.shazamclone.R
 import com.example.personal.shazamclone.data.identify.db.ShazamRepository
-import com.example.personal.shazamclone.domain.Song
+import com.example.personal.shazamclone.data.identify.db.room.SongEntity
 import com.example.personal.shazamclone.utils.App
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -128,7 +128,9 @@ class DiscoverPresenter: DiscoverContract.Presenter
     }
 
 
-    override fun saveSongLocally(song: Song) {
+    override fun saveSongLocally(song: SongEntity) {
+
+        Log.d("DiscoverPresenter", "savSongLocally from presenter called ")
 
         ShazamRepository.instance.saveSong(song)
     }

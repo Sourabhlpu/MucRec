@@ -2,6 +2,7 @@ package com.example.personal.shazamclone.discover
 
 import com.example.personal.shazamclone.BasePresenter
 import com.example.personal.shazamclone.BaseView
+import com.example.personal.shazamclone.data.identify.db.room.SongEntity
 import com.example.personal.shazamclone.domain.Song
 
 /**
@@ -56,8 +57,6 @@ interface  DiscoverContract{
         fun onHistoryButtonClicked()
 
        // This function is required to save the discovered song to the local database
-        fun saveSongLocally(song : Song)
-
-
+        fun saveSongLocally(song : SongEntity)
     }
 }

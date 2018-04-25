@@ -175,6 +175,7 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
         var rootView = inflater.inflate(R.layout.fragment_discover, container, false)
 
         rootView.discoverStartIdentifyButton.setOnClickListener {
+
             mPresenter.onStartIdentifyButtonClicked()
         }
 
@@ -182,6 +183,12 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
 
             mPresenter.onStopIdentifyButtonClicked()
         }
+
+        rootView.discoverHistoryButton.setOnClickListener{
+
+            mPresenter.onHistoryButtonClicked()
+        }
+
 
         return rootView
     }
@@ -329,12 +336,18 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
     }
 
     override fun onSongFound(song: Song) {
+
+        val songEntity = MusicDataMapper().convertSongToEntity(song)
+
+        Log.d("DiscoverFragment", "onSongFound, ${songEntity.name} ")
+
+        mPresenter.saveSongLocally(songEntity)
         hideStartIdentifyButtonView()
         showStopIdentifyButtonView()
         showIdentifyProgressView()
         hideErrorViews()
         openSongDetailPage(song)
-        mPresenter.saveSongLocally(song)
+
     }
 
     fun startThreadToSearchYoutube(title : String, album : String, result : SongIdentificationResult)

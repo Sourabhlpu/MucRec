@@ -8,7 +8,7 @@ import android.os.Looper
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors
 
-class AppExecutors(val diskIO : Executor, val networkIO : Executor, val mainThread : Executor){
+data class AppExecutors(val diskIO : Executor, val networkIO : Executor, val mainThread : Executor){
 
     companion object {
 

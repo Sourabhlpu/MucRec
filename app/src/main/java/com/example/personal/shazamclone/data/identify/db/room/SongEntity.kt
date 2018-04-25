@@ -2,6 +2,7 @@ package com.example.personal.shazamclone.data.identify.db.room
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 
 
@@ -10,14 +11,33 @@ import android.arch.persistence.room.PrimaryKey
  */
 
 @Entity(tableName = "songData")
- data class SongEntity(
-        @PrimaryKey(autoGenerate = true) var id: Long?,
-        @ColumnInfo(name = "song_name") var name : String,
-        @ColumnInfo(name = "song_album") var album : String,
-        @ColumnInfo(name = "song_artists") var artists : String,
-        @ColumnInfo(name = "youtube_vidId") var vidId : String
-) {
+ class SongEntity{
 
-    constructor() : this(0, "", "", "", "")
+
+        @PrimaryKey(autoGenerate = true)
+        var id: Long? = null
+
+        @ColumnInfo(name = "name")
+        var name : String = ""
+
+        @ColumnInfo(name = "artist")
+        var artist : String = ""
+
+        @ColumnInfo(name = "album")
+        var album : String = ""
+
+        @ColumnInfo(name = "youtubeLink")
+        var vidId : String = ""
+
+    constructor()
+
+    @Ignore
+    constructor(name: String, artist: String, album: String, vidId:String): this(){
+
+        this.name = name
+        this.artist = artist
+        this.album = album
+        this.vidId = vidId
+    }
 
 }

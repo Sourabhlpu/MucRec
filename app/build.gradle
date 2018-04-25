@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
@@ -110,12 +112,13 @@ dependencies {
 
     implementation files('libs/google-api-services-youtube-v3-rev193-1.23.0.jar')
 
-    //anko extention for sqlite
-    compile "org.jetbrains.anko:anko-sqlite:$anko_version"
+
 
     //library for room database
-    implementation "android.arch.persistence.room:runtime:1.0.0"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+    compile "android.arch.persistence.room:runtime:$room_version"
 
-    kapt "android.arch.persistence.room:compiler:1.0.0"
+
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
 }

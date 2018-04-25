@@ -1,7 +1,8 @@
 package com.example.personal.shazamclone.data.identify.db
 
-import com.example.personal.shazamclone.data.identify.db.room.SongDatabase
-import com.example.personal.shazamclone.domain.Song
+import com.example.personal.shazamclone.AppExecutors
+import com.example.personal.shazamclone.data.identify.db.room.SongEntity
+import com.example.personal.shazamclone.utils.App
 
 /**
  * Created by personal on 4/22/2018.
@@ -14,8 +15,15 @@ class ShazamRepository{
         val instance by lazy { ShazamRepository() }
     }
 
-    fun saveSong(song : Song) = SongDatabase.instance.songDao().insert(song)
+    fun saveSong(song : SongEntity) {
 
-    fun getAllSongs() : List<Song> = SongDatabase.instance.songDao().getAll()
+        AppExecutors.instance.diskIO.execute {
+
+            App.database.songDao().insert(song)
+        }
+
+    }
+
+    fun getAllSongs() : List<SongEntity> = App.database.songDao().getAll()
 
 }

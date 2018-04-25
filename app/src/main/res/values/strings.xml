@@ -30,4 +30,8 @@
     <string name="youtube_api_key">AIzaSyBOxkCRPooDWS7zyC5tQR0_SWTSAdI_XUk</string>
 
     <!-- Song details page end -->
+
+    <!-- Song history page -->
+
+    <string name="song_history_error">No songs saved yet.</string>
 </resources>
