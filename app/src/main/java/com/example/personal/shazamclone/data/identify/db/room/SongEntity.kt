@@ -1,17 +1,15 @@
 package com.example.personal.shazamclone.data.identify.db.room
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 
 
 /**
  * Created by personal on 4/20/2018.
  */
 
-@Entity(tableName = "songData")
+@Entity(tableName = "songData", indices = arrayOf(Index(value = "youtubeLink", unique = true)))
  class SongEntity{
+
 
 
         @PrimaryKey(autoGenerate = true)
@@ -29,15 +27,20 @@ import android.arch.persistence.room.PrimaryKey
         @ColumnInfo(name = "youtubeLink")
         var vidId : String = ""
 
+        @ColumnInfo(name = "imageUrl")
+        var imageUrl : String = ""
+
     constructor()
 
     @Ignore
-    constructor(name: String, artist: String, album: String, vidId:String): this(){
+    constructor(name: String, artist: String, album: String, vidId:String, imageUrl : String = "")
+            : this(){
 
         this.name = name
         this.artist = artist
         this.album = album
         this.vidId = vidId
+        this.imageUrl = imageUrl
     }
 
 }

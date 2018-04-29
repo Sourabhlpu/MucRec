@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.fragment_song_history.*
 /**
  * Created by personal on 4/23/2018.
  */
-class HistoryFragment : Fragment(), HistoryContract.view, LoaderManager.LoaderCallbacks<List<SongEntity>>{
+class HistoryFragment : Fragment(), HistoryContract.view,
+        LoaderManager.LoaderCallbacks<List<SongEntity>>{
 
 
     private lateinit var mPresenter : HistoryContract.Presenter

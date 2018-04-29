@@ -20,6 +20,7 @@
     <string name="song_album_extra">albumName</string>
     <string name="song_artist_extra">songArtist</string>
     <string name="song_youtube_id">vidId</string>
+    <string name="isrc_id_extra">spotifyId</string>
     <!-- Discover Page End -->
 
     <!-- Song details page start-->

@@ -124,6 +124,8 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
 
         intent.putExtra(getString(R.string.song_youtube_id), song.youtubeLink)
 
+        intent.putExtra(getString(R.string.isrc_id_extra), song.isrc)
+
         startActivity(intent)
 
     }
@@ -305,7 +307,7 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
     override fun onPause() {
         super.onPause()
 
-        mPresenter.dropView()
+        //mPresenter.dropView()
     }
 
     override fun onOfflineError() {

@@ -19,4 +19,7 @@ interface SongDao{
 
     @Query("SELECT COUNT(id) From songData")
      fun getSongCount() : Int
+
+    @Query("UPDATE songData SET imageUrl = :url WHERE youtubeLink = :ylink")
+      fun updateImageLink(url : String, ylink : String)
 }

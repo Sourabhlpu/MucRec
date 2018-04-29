@@ -47,6 +47,9 @@ ext {
     kotlinMockitoVersion = '0.1.2'
     anko_version = "0.10.4"
     room_version = "1.0.0"
+    okhttp_version = "3.9.0"
+    interceptor_version = "3.6.0"
+    picasso_version = "2.71828"
 
 }
 

@@ -31,7 +31,11 @@ class SongDetailActivity : AppCompatActivity() {
                 songDetailFragment, "SongDetailFragment")
 
 
+        SongDetailPresenter().takeView(songDetailFragment)
+
         setUpYoutubePlayer()
+
+
 
     }
 

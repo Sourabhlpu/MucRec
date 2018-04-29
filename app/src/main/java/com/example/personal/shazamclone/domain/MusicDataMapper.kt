@@ -23,10 +23,10 @@ class MusicDataMapper{
             return songEntity
         }
 
-        fun convertEntityToSong(song : SongEntity) : Song
+      /*  fun convertEntityToSong(song : SongEntity) : Song
         {
             return Song(song.name, song.artist, song.album,song.vidId)
-        }
+        }*/
 
 
 
@@ -37,13 +37,14 @@ class MusicDataMapper{
         val title = songIdentificationResult.metadata.music[0].title
         val artists = convertArtistsToString(songIdentificationResult.metadata.music[0].artists)
         val albumName = songIdentificationResult.metadata.music[0].album.name
+        val isrc = songIdentificationResult.metadata.music[0].external_ids.isrc
         var videoId : String? = vidId
 
         if(videoId == null)
         {
             videoId = songIdentificationResult.metadata.music.get(0).external_metadata.youtube.vid
         }
-        return Song(title,artists,albumName, videoId!!)
+        return Song(title,artists,albumName, videoId!!, isrc)
 
 
     }

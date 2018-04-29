@@ -121,4 +121,11 @@ dependencies {
 
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
+    // OkHttp
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
+    compile "com.squareup.okhttp3:logging-interceptor:$interceptor_version"
+
+    //picasso for network images
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }
