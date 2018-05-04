@@ -24,6 +24,9 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
 
  val isrc by lazy { activity!!.intent.getStringExtra(getString(R.string.isrc_id_extra)) }
 
+ val track by lazy { activity!!.intent.getStringExtra(getString(R.string.song_name_extra)) }
+
+ val artist by lazy { activity!!.intent.getStringExtra(getString(R.string.song_artist_extra)) }
 
 
  private lateinit var mPresenter : SongDetailContract.Presenter
@@ -35,9 +38,9 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
 
   var rootView = inflater.inflate(R.layout.fragment_song_details, container, false)
 
-  rootView.song_name.text = activity!!.intent.extras.getString(getString(R.string.song_name_extra))
+  rootView.song_name.text = track
 
-  rootView.artist_name.text =  activity!!.intent.extras.getString(getString(R.string.song_artist_extra))
+  rootView.artist_name.text =  artist
 
   rootView.album_name.text = activity!!.intent.extras.getString(getString(R.string.song_album_extra))
 
@@ -65,7 +68,7 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
 
    override fun loadInBackground(): String? {
 
-    return mPresenter.getImageUrl(isrc)
+    return mPresenter.getImageUrl(isrc, track, artist)
 
    }
 

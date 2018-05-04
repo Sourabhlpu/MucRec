@@ -15,6 +15,8 @@ class DiscoverActivity : AppCompatActivity() {
     private val REQUEST_PERMISSIONS_CODE = 100;
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_discover)
 

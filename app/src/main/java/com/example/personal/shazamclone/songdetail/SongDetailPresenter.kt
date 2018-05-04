@@ -26,8 +26,8 @@ class SongDetailPresenter : SongDetailContract.Presenter {
         ShazamRepository.instance.updateImageUrl(url, yLink)
     }
 
-    override fun getImageUrl(isrc: String): String =
+    override fun getImageUrl(isrc: String, track: String, artist: String): String =
 
-        ShazamRepository.instance.getImageUrl(isrc)
+        ShazamRepository.instance.getImageUrl(isrc, track, artist)
 
 }

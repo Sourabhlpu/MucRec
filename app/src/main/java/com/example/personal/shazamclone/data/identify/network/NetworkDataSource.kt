@@ -49,6 +49,10 @@ class NetworkDataSource{
 
         val FORMAT_MB = "fmt"
 
+        val TRACK = "track"
+
+        val ARTIST = "artist"
+
     }
 
     val interceptor : HttpLoggingInterceptor by lazy { HttpLoggingInterceptor() }
@@ -63,28 +67,64 @@ okhttpBuilder.networkInterceptors().add(interceptor)
 }
 
 
-    fun getAlbumArtUrl(isrc: String) : String{
+    fun getAlbumArtUrl(isrc: String = "", track: String = "", artist: String = "") : String{
 
         Log.d("NetworkDataSource", "isrc code is $isrc")
 
-        val responseMB : Response = client.newCall(requestBuilderMB(isrc)).execute()
+        var imageUrl : String
 
-        val mbId = parseResponseMB(responseMB.body()!!.string())
+        if(!isrc.isNullOrEmpty()) {
 
-        val response : Response = client.newCall(requestBuilder(mbId)).execute()
+            val responseMB: Response = client.newCall(requestBuilderMB(isrc)).execute()
+
+            val mbId = parseResponseMB(responseMB.body()!!.string())
+
+            if(mbId.isNullOrEmpty())
+            {
+                val response : Response = client.newCall(requestBuilder(track = track,artist = artist)).execute()
+
+                imageUrl = parseResponse(response.body()!!.string())
 
 
-        val imageURL = parseResponse(response.body()!!.string())
+            }
+            else {
 
-        return imageURL
+                val response: Response = client.newCall(requestBuilder(mbId = mbId)).execute()
+
+                imageUrl = parseResponse(response.body()!!.string())
+
+                if(imageUrl.isNullOrEmpty())
+                {
+                    val response : Response =
+                            client.newCall(requestBuilder(track = track,artist = artist)).execute()
+
+                    imageUrl = parseResponse(response.body()!!.string())
+                }
+            }
+        }
+        else
+        {
+            val response : Response = client.newCall(requestBuilder(track,artist)).execute()
+
+            imageUrl = parseResponse(response.body()!!.string())
+        }
+        return imageUrl
     }
 
-    private fun requestBuilder(mbId : String) : Request {
+    private fun requestBuilder(mbId : String = "", track: String = "", artist: String = "") : Request {
 
         val urlBuilder : HttpUrl.Builder = HttpUrl.parse(BASE_URL)!!.newBuilder()
 
+        if(mbId.isNullOrEmpty())
+        {
+            urlBuilder.addQueryParameter(TRACK, track)
+            urlBuilder.addQueryParameter(ARTIST, artist)
+        }
+        else{
+            urlBuilder.addQueryParameter(MBID, mbId)
+        }
+
         urlBuilder.addQueryParameter(API_KEY, API_KEY_VALUE)
-        urlBuilder.addQueryParameter(MBID, mbId)
         urlBuilder.addQueryParameter(FORMAT, FORMAT_VALUE)
         urlBuilder.addQueryParameter(AUTO_CORRECT, "1")
 
