@@ -35,4 +35,20 @@
     <!-- Song history page -->
 
     <string name="song_history_error">No songs saved yet.</string>
+
+    <!-- Song history page end -->
+
+    <!-- Intro activity start -->
+
+    <string name="slide_one_title">Identify</string>
+    <string name="slide_one_description">Identify music playing around you</string>
+
+    <string name="slide_two_title">Grant Permissions</string>
+    <string name="slide_two_description">All the songs that you discovered will be saved automatically</string>
+
+    <string name="slide_three_title">Let\'s Begin</string>
+    <string name="slide_three_description">Lets start identifying.</string>
+
+    <!-- Intro activity end -->
+
 </resources>

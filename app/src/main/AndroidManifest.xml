@@ -30,11 +30,13 @@
         android:theme="@style/AppTheme">
         <activity android:name=".discover.DiscoverActivity"
             android:theme="@style/AppTheme.Launcher">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".songdetail.SongDetailActivity"
@@ -45,6 +47,12 @@
         </activity>
         <activity android:name=".history.HistoryActivity" />
         <activity android:name=".donate.DonateActivity"></activity>
+
+        <activity
+            android:name=".IntroActivity"
+            android:theme="@style/Theme.Intro" >
+
+        </activity>
 
 
     </application>

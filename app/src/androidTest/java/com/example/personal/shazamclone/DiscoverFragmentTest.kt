@@ -1,3 +1,4 @@
+/*
 package com.example.personal.shazamclone
 
 import android.support.test.espresso.Espresso.onView
@@ -13,9 +14,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+*/
 /**
  * Created by personal on 3/25/2018.
- */
+ *//*
+
 
 
 @RunWith(AndroidJUnit4 :: class)
@@ -56,3 +59,4 @@ class DiscoverFragmentTest{
         onView(withId(R.id.historyFragmentContainer)).check(matches(isDisplayed()))
     }
 }
+*/

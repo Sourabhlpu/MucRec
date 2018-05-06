@@ -1,3 +1,4 @@
+/*
 package com.example.personal.shazamclone.discover
 import com.example.personal.shazamclone.data.identify.SongIdentifyService
 import com.example.personal.shazamclone.domain.Song
@@ -10,9 +11,11 @@ import org.junit.Before
 import org.junit.Test
 
 
+*/
 /**
  * Created by personal on 3/27/2018.
- */
+ *//*
+
 
 class DiscoverPresenterTest{
 
@@ -134,4 +137,4 @@ class DiscoverPresenterTest{
         verify(mDiscoverView).openHistoryPage()
     }
 
-}
+}*/
