@@ -51,6 +51,7 @@ ext {
     interceptor_version = "3.6.0"
     picasso_version = "2.71828"
     material_intro_screen = "0.0.5"
+    xml_to_json_version = "1.4.4"
 
 }
 

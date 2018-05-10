@@ -68,7 +68,9 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
 
    override fun loadInBackground(): String? {
 
-    return mPresenter.getImageUrl(isrc, track, artist)
+
+
+    return mPresenter.getCoverArtUrl(isrc, track, artist)
 
    }
 

@@ -18,6 +18,7 @@ interface SongDetailContract {
 
         fun updateImageUrl(url: String, yLink: String)
 
-        fun getImageUrl(isrc : String, track: String, artist: String) : String
+
+        fun getCoverArtUrl(isrc : String, track: String, artist: String) : String
     }
 }

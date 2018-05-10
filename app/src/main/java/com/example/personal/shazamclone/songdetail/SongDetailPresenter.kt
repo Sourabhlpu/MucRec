@@ -8,6 +8,7 @@ import com.example.personal.shazamclone.data.identify.db.ShazamRepository
 class SongDetailPresenter : SongDetailContract.Presenter {
 
 
+
     private lateinit var mSongDetailView : SongDetailContract.View
 
     override fun takeView(view: SongDetailContract.View) {
@@ -26,8 +27,10 @@ class SongDetailPresenter : SongDetailContract.Presenter {
         ShazamRepository.instance.updateImageUrl(url, yLink)
     }
 
-    override fun getImageUrl(isrc: String, track: String, artist: String): String =
 
-        ShazamRepository.instance.getImageUrl(isrc, track, artist)
+
+    override fun getCoverArtUrl(isrc: String, track: String, artist: String) : String =
+
+            ShazamRepository.instance.getCoverArtUrl(isrc,track,artist)
 
 }

@@ -30,8 +30,14 @@ class ShazamRepository{
     fun updateImageUrl(url : String, ylink : String)
             = App.database.songDao().updateImageLink(url,ylink)
 
-    fun getImageUrl(isrc : String, track: String, artist: String) : String =
-            NetworkDataSource.instance.getAlbumArtUrl(isrc, track, artist)
+
+
+    fun getCoverArtUrl(isrc : String, track: String, artist: String) : String =
+
+        NetworkDataSource.instance.getCoverArtUrl(isrc, track, artist)
+
+
+
 
 
 }

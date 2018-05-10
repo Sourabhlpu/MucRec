@@ -1,6 +1,7 @@
 package com.example.personal.shazamclone.data.identify.network
 
 import android.util.Log
+import fr.arnaudguyon.xmltojsonlib.XmlToJson
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -13,197 +14,255 @@ import org.json.JSONObject
 /**
  * Created by personal on 4/26/2018.
  */
-class NetworkDataSource{
+class NetworkDataSource {
 
     companion object {
 
         val instance by lazy { NetworkDataSource() }
 
-        val BASE_URL: String = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo"
 
         val BASE_URL_MB = "https://musicbrainz.org/ws/2/isrc/"
 
-        val ID = "id"
-        val API_KEY = "api_key"
-        val API_KEY_VALUE = "22ebf268c1bab92ad08463f9fc8936d2"
+        val BASE_URL_CA = "https://coverartarchive.org/release/"
 
-        val ALBUM = "album"
 
-        val MBID = "mbid"
+        val INC = "inc"
 
-        val IMAGES = "image"
+        val INC_VAL = "releases"
 
-        val AUTO_CORRECT = "autocorrect"
-
-        val FORMAT = "format"
-
-        val FORMAT_VALUE = "json"
-
-        val SIZE = "size"
-
-        val SIZE_VALUE = "medium"
-
-        val TEXT = "#text"
-
-        val ERROR = "error"
-
-        val FORMAT_MB = "fmt"
-
-        val TRACK = "track"
-
-        val ARTIST = "artist"
 
     }
 
-    val interceptor : HttpLoggingInterceptor by lazy { HttpLoggingInterceptor() }
+    val interceptor: HttpLoggingInterceptor by lazy { HttpLoggingInterceptor() }
 
-    val okhttpBuilder : OkHttpClient.Builder by lazy { OkHttpClient.Builder() }
+    val okhttpBuilder: OkHttpClient.Builder by lazy { OkHttpClient.Builder() }
 
-val client : OkHttpClient by lazy { interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+    val client: OkHttpClient by lazy {
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
-okhttpBuilder.networkInterceptors().add(interceptor)
+        okhttpBuilder.networkInterceptors().add(interceptor)
 
-    okhttpBuilder.build()
-}
+        okhttpBuilder.build()
+    }
 
+    fun getCoverArtUrl(isrc: String = "", track: String = "", artist: String = ""): String {
 
-    fun getAlbumArtUrl(isrc: String = "", track: String = "", artist: String = "") : String{
+        Log.d("NetworkDataSource", "isrc code is $isrc and get getCoverArtUrl called")
 
-        Log.d("NetworkDataSource", "isrc code is $isrc")
+        var imageUrl: String = ""
 
-        var imageUrl : String
-
-        if(!isrc.isNullOrEmpty()) {
+        if (!isrc.isNullOrEmpty()) {
 
             val responseMB: Response = client.newCall(requestBuilderMB(isrc)).execute()
 
-            val mbId = parseResponseMB(responseMB.body()!!.string())
+            val id: String = parseResponseMB(responseMB.body()!!.string())
 
-            if(mbId.isNullOrEmpty())
-            {
-                val response : Response = client.newCall(requestBuilder(track = track,artist = artist)).execute()
+            Log.d("NetworkDataSource", "the id of the album is $id")
 
-                imageUrl = parseResponse(response.body()!!.string())
+            imageUrl = requestCoverArtArchive(id)
 
 
-            }
-            else {
-
-                val response: Response = client.newCall(requestBuilder(mbId = mbId)).execute()
-
-                imageUrl = parseResponse(response.body()!!.string())
-
-                if(imageUrl.isNullOrEmpty())
-                {
-                    val response : Response =
-                            client.newCall(requestBuilder(track = track,artist = artist)).execute()
-
-                    imageUrl = parseResponse(response.body()!!.string())
-                }
-            }
         }
-        else
+        /*else
         {
-            val response : Response = client.newCall(requestBuilder(track,artist)).execute()
+             do a api call using track, artist and album.
+        }*/
 
-            imageUrl = parseResponse(response.body()!!.string())
-        }
         return imageUrl
     }
 
-    private fun requestBuilder(mbId : String = "", track: String = "", artist: String = "") : Request {
 
-        val urlBuilder : HttpUrl.Builder = HttpUrl.parse(BASE_URL)!!.newBuilder()
+    private fun requestBuilderMB(isrc: String): Request {
 
-        if(mbId.isNullOrEmpty())
-        {
-            urlBuilder.addQueryParameter(TRACK, track)
-            urlBuilder.addQueryParameter(ARTIST, artist)
-        }
-        else{
-            urlBuilder.addQueryParameter(MBID, mbId)
-        }
-
-        urlBuilder.addQueryParameter(API_KEY, API_KEY_VALUE)
-        urlBuilder.addQueryParameter(FORMAT, FORMAT_VALUE)
-        urlBuilder.addQueryParameter(AUTO_CORRECT, "1")
-
-        val url : String = urlBuilder.build().toString()
-
-        return Request.Builder()
-                .url(url)
-                .build()
-    }
-
-    private fun requestBuilderMB(isrc : String) : Request {
-
-        val urlBuilder : HttpUrl.Builder = HttpUrl.parse(BASE_URL_MB)!!.newBuilder()
+        val urlBuilder: HttpUrl.Builder = HttpUrl.parse(BASE_URL_MB)!!.newBuilder()
 
         urlBuilder.addPathSegment(isrc)
 
-        urlBuilder.addQueryParameter(FORMAT_MB, "json")
+        urlBuilder.addQueryParameter(INC, INC_VAL)
 
-        val url : String = urlBuilder.build().toString()
+        val url: String = urlBuilder.build().toString()
 
         return Request.Builder()
                 .url(url)
                 .build()
     }
 
-    private fun parseResponse(responseString : String): String {
 
-        Log.d("NetworkDataSource ", "the response is $responseString")
+    private fun parseResponseMB(responseString: String): String {
 
-        var imageUrl = ""
+        Log.d("NetworkDataSource", "the response from MB(XML) is $responseString")
+
+        val xmlToJson: XmlToJson = XmlToJson.Builder(responseString).build()
+
+        Log.d("NetworkDataSource", "the response from MB(JSON) is $xmlToJson")
+
+
+        var id: String = ""
 
         try {
 
-            val rootObject = JSONObject(responseString)
+            val rootObject = xmlToJson.toJson()
 
-            if(rootObject.has(ERROR)){
+            val metadata = rootObject!!.getJSONObject("metadata")
 
-                return imageUrl
+            val isrc = metadata!!.getJSONObject("isrc")
+
+            val recordingList = isrc!!.getJSONObject("recording-list")
+
+            var recording = recordingList!!.get("recording")
+
+            var releaseList : JSONObject = JSONObject()
+
+            if(recording is JSONArray) {
+
+               id = getFirstReleaseWithRecordingArray(recording)
+
+                /*recording = recording as JSONArray
+                releaseList =  recording.getJSONObject(0).getJSONObject("release-list")*/
             }
-            val track = rootObject.getJSONObject("track")
-            val album: JSONObject = track.getJSONObject(ALBUM)
-            val images: JSONArray = album.getJSONArray(IMAGES)
-
-            for (i in 0..(images.length() - 1)) {
-
-
-                if (images.getJSONObject(i).getString(SIZE).equals(SIZE_VALUE)) {
-
-                    imageUrl = images.getJSONObject(i).getString(TEXT)
-                }
-
+            else
+            {
+                recording = recording as JSONObject
+                releaseList = recording.getJSONObject("release-list")
             }
 
-        } catch(exception : JSONException){
+
+            var release = releaseList!!.get("release")
+
+            if(release is JSONArray)
+            {
+                id = getFirstRelease(release).get(1)
+                //id = releaseList.getJSONArray("release").getJSONObject(0).getString("id")
+            }
+            else{
+
+                id = releaseList.getJSONObject("release").getString("id")
+            }
 
 
+
+            return id
+
+
+        } catch (exception: JSONException) {
+
+            exception.printStackTrace()
         }
 
-        return imageUrl
+        Log.d("NetworkDataSource", "the id of the album is $id")
+
+        return id
     }
 
-    private fun parseResponseMB(responseString : String) : String{
 
-        var mbId = ""
+   private fun requestCoverArtArchive(releaseId: String): String {
 
-        try{
+        val response: Response = client.newCall(createRequestCA(releaseId)).execute()
 
-            val rootObject = JSONObject(responseString)
+        val url = parseCAresponse(response.body()!!.string())
 
-            val recordingArray = rootObject.getJSONArray("recordings")
+        Log.d("NetworkDataSource", "the url from cover art is $url")
 
-            mbId = recordingArray.getJSONObject(0).getString("id")
+        return url
+    }
+
+    private fun createRequestCA(releaseId: String): Request {
+
+        val urlBuilder: HttpUrl.Builder = HttpUrl.parse(BASE_URL_CA)!!.newBuilder()
+
+        urlBuilder.addPathSegment(releaseId)
+
+        val url = urlBuilder.build().toString()
+
+        return Request.Builder().url(url).build()
+    }
+
+   private fun parseCAresponse(response: String): String {
+
+        Log.d("NetworkDataSource", "the response from cover art is $response")
+
+        var small : String = ""
+
+       try {
+
+           val rootObject = JSONObject(response)
+           val image = rootObject.getJSONArray("images").getJSONObject(0)
+           val thumbnails = image.getJSONObject("thumbnails")
+           small = thumbnails.getString("small")
+       }
+       catch (exception: JSONException) {
+
+           exception.printStackTrace()
+       }
+
+        return small
+    }
+
+
+    private fun getFirstRelease(releases : JSONArray) : MutableList<String> {
+
+        val releaseList = mutableListOf<String>()
+        val releaseIdList = mutableListOf<String>()
+        val resultList = mutableListOf<String>()
+
+        for(i in 0 until releases.length())
+        {
+            releaseList.add(releases.getJSONObject(i).getString("date"))
+            releaseIdList.add(releases.getJSONObject(i).getString("id"))
         }
-        catch (exception : JSONException){
 
+        val firstReleaseDate = releaseList.min()
+        resultList.add(firstReleaseDate!!)
+
+        Log.d("NetworkDataSource", "the first release date is $firstReleaseDate")
+
+        val firstReleaseDateIndex = releaseList.indexOf(firstReleaseDate)
+
+
+
+        val firstReleaseId = releaseIdList.get(firstReleaseDateIndex)
+
+        resultList.add(firstReleaseId)
+
+        Log.d("NetworkDataSource", "the first release id is  $firstReleaseId")
+
+
+        return resultList
+
+    }
+
+    private fun getFirstReleaseWithRecordingArray(recordings : JSONArray) : String {
+
+        val releaseIdList = mutableListOf<String>()
+        val releaseDate = mutableListOf<String>()
+
+        var id : String = ""
+
+        for(i in 0 until recordings.length()){
+
+            val releaseList = recordings.getJSONObject(i).getJSONObject("release-list")
+
+            var release = releaseList!!.get("release")
+
+            if(release is JSONArray)
+            {
+                releaseDate.add(getFirstRelease(release).get(0))
+                releaseIdList.add(getFirstRelease(release).get(1))
+            }
+            else{
+
+                id = releaseList.getJSONObject("release").getString("id")
+            }
 
         }
 
-        return mbId
+        val index = releaseDate.indexOf(releaseDate.min())
+
+        Log.d("NetworkDataSource", "the index of the overall first date is $index")
+        id = releaseIdList.get(index)
+        Log.d("NetworkDataSource", "the id of the overall first release is $id")
+
+        return id
     }
 
 }

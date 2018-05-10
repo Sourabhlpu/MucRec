@@ -114,4 +114,7 @@ dependencies {
     //for onboarding screen
     compile "agency.tango.android:material-intro-screen:$material_intro_screen"
 
+    // for converting xml to json
+    compile "com.github.smart-fun:XmlToJson:$xml_to_json_version"
+
 }
