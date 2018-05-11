@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.personal.shazamclone.R
 import com.example.personal.shazamclone.R.layout.song_item
 import com.example.personal.shazamclone.data.identify.db.room.SongEntity
 import com.example.personal.shazamclone.utils.ctx
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.song_item.view.*
 
 /**
@@ -42,6 +44,11 @@ class HistoryAdapter(private var songs: MutableList<SongEntity>,
                 itemView.song_title.text =  name
                 itemView.song_artist.text = artist
                 itemView.song_album.text = album
+
+                Picasso.get().load(imageUrl!!)
+                        .error(R.drawable.album_art_placeholder)
+                        .placeholder(R.drawable.album_art_placeholder)
+                        .into(itemView.album_art_image)
 
                 itemView.setOnClickListener{ itemClick(this)}
             }

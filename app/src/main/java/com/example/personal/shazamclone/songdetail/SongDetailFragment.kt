@@ -28,6 +28,8 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
 
  val artist by lazy { activity!!.intent.getStringExtra(getString(R.string.song_artist_extra)) }
 
+ val youtubeLink by lazy { activity!!.intent.getStringExtra(getString(R.string.song_youtube_id))}
+
 
  private lateinit var mPresenter : SongDetailContract.Presenter
 
@@ -81,7 +83,7 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
 
   Log.d("SongDetailFragment", "the url is $data")
 
-  if(data.equals("")){
+  if(data.isNullOrEmpty()){
 
    Picasso.get().load(R.drawable.album_art_placeholder).into(album_art)
   }
@@ -91,6 +93,8 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
            .error(R.drawable.album_art_placeholder)
            .placeholder(R.drawable.album_art_placeholder)
            .into(album_art)
+
+   mPresenter.updateImageUrl(data!!, youtubeLink)
   }
  }
 

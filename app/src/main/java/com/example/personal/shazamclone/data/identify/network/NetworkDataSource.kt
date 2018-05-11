@@ -103,11 +103,11 @@ class NetworkDataSource {
 
             val rootObject = xmlToJson.toJson()
 
-            val metadata = rootObject!!.getJSONObject("metadata")
+            val metadata = rootObject!!.optJSONObject("metadata")
 
-            val isrc = metadata!!.getJSONObject("isrc")
+            val isrc = metadata!!.optJSONObject("isrc")
 
-            val recordingList = isrc!!.getJSONObject("recording-list")
+            val recordingList = isrc!!.optJSONObject("recording-list")
 
             var recording = recordingList!!.get("recording")
 
@@ -115,7 +115,7 @@ class NetworkDataSource {
 
             if(recording is JSONArray) {
 
-               id = getFirstReleaseWithRecordingArray(recording)
+               id = getFirstReleaseWithRecordingArray(recording).values.elementAt(0)
 
                 /*recording = recording as JSONArray
                 releaseList =  recording.getJSONObject(0).getJSONObject("release-list")*/
@@ -123,23 +123,19 @@ class NetworkDataSource {
             else
             {
                 recording = recording as JSONObject
-                releaseList = recording.getJSONObject("release-list")
+                releaseList = recording.optJSONObject("release-list")
+                var release = releaseList!!.get("release")
+
+                if(release is JSONArray)
+                {
+                    id = getFirstRelease(release).values.elementAt(0)
+                    //id = releaseList.getJSONArray("release").getJSONObject(0).getString("id")
+                }
+                else{
+
+                    id = releaseList.optJSONObject("release").optString("id")
+                }
             }
-
-
-            var release = releaseList!!.get("release")
-
-            if(release is JSONArray)
-            {
-                id = getFirstRelease(release).get(1)
-                //id = releaseList.getJSONArray("release").getJSONObject(0).getString("id")
-            }
-            else{
-
-                id = releaseList.getJSONObject("release").getString("id")
-            }
-
-
 
             return id
 
@@ -186,9 +182,9 @@ class NetworkDataSource {
        try {
 
            val rootObject = JSONObject(response)
-           val image = rootObject.getJSONArray("images").getJSONObject(0)
-           val thumbnails = image.getJSONObject("thumbnails")
-           small = thumbnails.getString("small")
+           val image = rootObject.optJSONArray("images").optJSONObject(0)
+           val thumbnails = image.optJSONObject("thumbnails")
+           small = thumbnails.optString("small")
        }
        catch (exception: JSONException) {
 
@@ -199,19 +195,26 @@ class NetworkDataSource {
     }
 
 
-    private fun getFirstRelease(releases : JSONArray) : MutableList<String> {
+    private fun getFirstRelease(releases : JSONArray) : MutableMap<String,String> {
 
         val releaseList = mutableListOf<String>()
         val releaseIdList = mutableListOf<String>()
         val resultList = mutableListOf<String>()
 
+        val result = mutableMapOf<String, String>()
+
         for(i in 0 until releases.length())
         {
-            releaseList.add(releases.getJSONObject(i).getString("date"))
-            releaseIdList.add(releases.getJSONObject(i).getString("id"))
+            releaseList.add(releases.optJSONObject(i).optString("date"))
+            releaseIdList.add(releases.optJSONObject(i).optString("id"))
+
+            result.put(releases.optJSONObject(i).optString("date"),
+                    releases.optJSONObject(i).optString("id") )
         }
 
         val firstReleaseDate = releaseList.min()
+
+        val sorted = result.toSortedMap()
         resultList.add(firstReleaseDate!!)
 
         Log.d("NetworkDataSource", "the first release date is $firstReleaseDate")
@@ -226,43 +229,50 @@ class NetworkDataSource {
 
         Log.d("NetworkDataSource", "the first release id is  $firstReleaseId")
 
+        Log.d("NetworkDataSource", "the result map is ${sorted.toString()}")
 
-        return resultList
+
+        return sorted
 
     }
 
-    private fun getFirstReleaseWithRecordingArray(recordings : JSONArray) : String {
+    private fun getFirstReleaseWithRecordingArray(recordings : JSONArray) : MutableMap<String,String> {
 
-        val releaseIdList = mutableListOf<String>()
-        val releaseDate = mutableListOf<String>()
+       // val releaseIdList = mutableListOf<String>()
+       // val releaseDate = mutableListOf<String>()
 
-        var id : String = ""
+        val result = mutableMapOf<String, String>()
+
+        //var id : String = ""
 
         for(i in 0 until recordings.length()){
 
-            val releaseList = recordings.getJSONObject(i).getJSONObject("release-list")
+            val releaseList = recordings.optJSONObject(i).optJSONObject("release-list")
 
             var release = releaseList!!.get("release")
 
             if(release is JSONArray)
             {
-                releaseDate.add(getFirstRelease(release).get(0))
-                releaseIdList.add(getFirstRelease(release).get(1))
+                //releaseDate.add(getFirstRelease(release).get(0))
+                //releaseIdList.add(getFirstRelease(release).get(1))
+
+                result.putAll(getFirstRelease(release))
+
             }
             else{
 
-                id = releaseList.getJSONObject("release").getString("id")
+                result.put(releaseList.optJSONObject("release").optString("date"),
+                        releaseList.optJSONObject("release").optString("id"))
             }
 
         }
 
-        val index = releaseDate.indexOf(releaseDate.min())
 
-        Log.d("NetworkDataSource", "the index of the overall first date is $index")
-        id = releaseIdList.get(index)
-        Log.d("NetworkDataSource", "the id of the overall first release is $id")
+        val sorted = result.toSortedMap()
 
-        return id
+        Log.d("NetworkDataSource", "the sorted map is $sorted")
+
+        return sorted
     }
 
 }

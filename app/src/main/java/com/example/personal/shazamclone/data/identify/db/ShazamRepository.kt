@@ -28,7 +28,13 @@ class ShazamRepository{
     fun getAllSongs() : List<SongEntity> = App.database.songDao().getAll()
 
     fun updateImageUrl(url : String, ylink : String)
-            = App.database.songDao().updateImageLink(url,ylink)
+    {
+        AppExecutors.instance.diskIO.execute {
+
+            App.database.songDao().updateImageLink(url,ylink)
+        }
+    }
+
 
 
 
