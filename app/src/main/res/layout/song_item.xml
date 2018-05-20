@@ -27,26 +27,34 @@
         android:layout_marginLeft="30dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintLeft_toRightOf="@id/album_art_image"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintTop_toTopOf="@id/album_art_image"/>
 
     <TextView
         android:id="@+id/song_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginRight="32dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         tools:text="Adele"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toLeftOf="@id/song_title"
         app:layout_constraintTop_toBottomOf="@id/song_title"/>
 
 
     <TextView
         android:id="@+id/song_album"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginRight="32dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         tools:text="21"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintTop_toBottomOf="@id/song_artist"
         app:layout_constraintLeft_toLeftOf="@id/song_artist"/>
 </android.support.constraint.ConstraintLayout>

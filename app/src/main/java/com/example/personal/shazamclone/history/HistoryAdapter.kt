@@ -45,10 +45,17 @@ class HistoryAdapter(private var songs: MutableList<SongEntity>,
                 itemView.song_artist.text = artist
                 itemView.song_album.text = album
 
-                Picasso.get().load(imageUrl!!)
-                        .error(R.drawable.album_art_placeholder)
-                        .placeholder(R.drawable.album_art_placeholder)
-                        .into(itemView.album_art_image)
+                if(imageUrl.isNullOrEmpty())
+                {
+                    Picasso.get().load(R.drawable.album_art_placeholder)
+                }
+                else {
+
+                    Picasso.get().load(imageUrl!!)
+                            .error(R.drawable.album_art_placeholder)
+                            .placeholder(R.drawable.album_art_placeholder)
+                            .into(itemView.album_art_image)
+                }
 
                 itemView.setOnClickListener{ itemClick(this)}
             }

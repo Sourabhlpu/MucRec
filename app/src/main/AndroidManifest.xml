@@ -45,11 +45,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".discover.DiscoverActivity"/>
         </activity>
-        <activity android:name=".history.HistoryActivity" />
+        <activity android:name=".history.HistoryActivity"
+            android:parentActivityName=".discover.DiscoverActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".discover.DiscoverActivity"/>
+
+        </activity>
         <activity android:name=".donate.DonateActivity"></activity>
 
         <activity
             android:name=".IntroActivity"
+            android:noHistory="true"
             android:theme="@style/Theme.Intro" >
 
         </activity>

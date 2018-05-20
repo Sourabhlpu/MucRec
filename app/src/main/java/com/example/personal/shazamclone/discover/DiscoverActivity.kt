@@ -13,35 +13,45 @@ class DiscoverActivity : AppCompatActivity() {
     private val REQUEST_PERMISSIONS_CODE = 100;
 
 
-    private val pref : PrefManager by lazy { PrefManager(this) }
+    private val pref: PrefManager by lazy { PrefManager(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        super.onCreate(savedInstanceState)
 
-        if(pref.isFirstTimeLaunch)
-        {
+        if (pref.isFirstTimeLaunch) {
 
             launchOnboarding()
         }
-
-        setTheme(R.style.AppTheme)
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_discover)
+        else if(!pref.isFirstTimeLaunch) {
 
 
-        val discoverFragment : DiscoverFragment = DiscoverFragment()
+            setTheme(R.style.AppTheme)
 
-        FragmentUtils.addIfNotExists(supportFragmentManager,R.id.discoverFragmentContainer,
-                discoverFragment, "DiscoverFragment")
+            setContentView(R.layout.activity_discover)
 
-        DiscoverPresenter().takeView(discoverFragment)
+
+            val discoverFragment: DiscoverFragment = DiscoverFragment()
+
+            FragmentUtils.addIfNotExists(supportFragmentManager, R.id.discoverFragmentContainer,
+                    discoverFragment, "DiscoverFragment")
+
+            DiscoverPresenter().takeView(discoverFragment)
+        }
+
 
     }
 
-    private fun launchOnboarding()
-    {
-        val intent : Intent = Intent(DiscoverActivity@this, IntroActivity :: class.java)
+    private fun launchOnboarding() {
+        val intent: Intent = Intent(DiscoverActivity@ this, IntroActivity::class.java)
         startActivity(intent)
     }
 
+    override fun onBackPressed() {
+
+        if(pref.isFirstTimeLaunch){
+            System.gc()
+            System.exit(0)
+        }
+    }
 }

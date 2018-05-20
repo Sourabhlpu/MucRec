@@ -44,7 +44,11 @@ class IntroActivity : MaterialIntroActivity() {
                 .description(getString(R.string.slide_three_description))
                 .build())
 
-        pref.isFirstTimeLaunch = false
 
+
+    }
+
+    override fun onFinish() {
+        pref.isFirstTimeLaunch = false
     }
 }

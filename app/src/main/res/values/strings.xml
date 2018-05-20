@@ -35,6 +35,7 @@
     <!-- Song history page -->
 
     <string name="song_history_error">No songs saved yet.</string>
+    <string name="history_title">History</string>
 
     <!-- Song history page end -->
 

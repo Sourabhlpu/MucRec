@@ -12,7 +12,7 @@
     <ImageView
         android:id="@+id/album_art"
         android:layout_width="146dp"
-        android:layout_height="95dp"
+        android:layout_height="110dp"
         android:layout_marginTop="32dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -25,24 +25,27 @@
         android:layout_height="wrap_content"
         android:text="@string/name_label"
         android:layout_marginTop="24dp"
+        android:layout_marginLeft="32dp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toStartOf="@+id/song_name"
-        app:layout_constraintHorizontal_bias="0.5"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/album_art"
         app:layout_constraintHorizontal_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/song_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
+        android:layout_marginRight="32dp"
         android:textColor="@android:color/white"
+        app:layout_constraintWidth_default="wrap"
         app:layout_constraintTop_toTopOf="@id/name_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/name_label"
+        app:layout_constraintRight_toRightOf="parent"
+
+        app:layout_constraintLeft_toRightOf="@+id/name_label"
         app:layout_constraintTop_toBottomOf="@id/album_art"
         app:layout_constraintHorizontal_chainStyle="packed"
         tools:text="Royal" />
@@ -52,25 +55,28 @@
         android:layout_height="wrap_content"
         android:id="@+id/artist_label"
         android:textStyle="bold"
+        android:layout_marginLeft="32dp"
         android:textColor="@android:color/white"
         android:text="@string/artist_label"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/artist_name"
         app:layout_constraintTop_toBottomOf="@id/name_label"
-        app:layout_constraintHorizontal_bias="0.5"
+
         app:layout_constraintHorizontal_chainStyle="packed"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/artist_name"
         android:layout_marginLeft="4dp"
+        android:layout_marginRight="32dp"
         android:textColor="@android:color/white"
+        app:layout_constraintWidth_default="wrap"
         app:layout_constraintLeft_toRightOf="@id/artist_label"
         app:layout_constraintTop_toTopOf="@id/artist_label"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintHorizontal_bias="0.5"
+
         tools:text="Lorde"/>
 
     <TextView
@@ -80,22 +86,25 @@
         android:textStyle="bold"
         android:text="@string/album_label"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="32dp"
         android:textColor="@android:color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/artist_label"
         app:layout_constraintRight_toLeftOf="@id/album_name"
-        app:layout_constraintHorizontal_bias="0.5"
+
         app:layout_constraintHorizontal_chainStyle="packed"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/album_name"
         android:layout_marginLeft="4dp"
+        android:layout_marginRight="32dp"
         android:textColor="@android:color/white"
+        app:layout_constraintWidth_default="wrap"
         app:layout_constraintLeft_toRightOf="@id/album_label"
         app:layout_constraintTop_toTopOf="@id/album_label"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+
         app:layout_constraintHorizontal_chainStyle="packed"
         tools:text="Pure Heroine"/>
 
