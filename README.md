@@ -19,18 +19,18 @@
     
      Here you can tap in the middle which will show a nice ripple animation to identify the song
     
-     ![screenshot_1](https://github.com/Sourabhlpu/ShazamClone/blob/master/screenshots/details.png)
+     ![screenshot_1](https://github.com/Sourabhlpu/ShazamClone/blob/master/screenshots/discover.png)
     
     
     2. Song details Screen
     
     This screen opens up once the music is identified successfully. 
     
-    ![screenshot_2](details.png)
+    ![screenshot_2](https://github.com/Sourabhlpu/ShazamClone/blob/master/screenshots/details.png)
     
     3. History Screen
     
     Here you can see a list of songs that were discovered before
     
-    ![screenshot_3](history.png)
+    ![screenshot_3](https://github.com/Sourabhlpu/ShazamClone/blob/master/screenshots/history.png)
     
