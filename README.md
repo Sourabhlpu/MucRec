@@ -13,7 +13,7 @@
     
     Screens :  
     
-    There are _ screens in the app.
+    There are 3 main screens in the app.
     
     1. Discover Screen
     
