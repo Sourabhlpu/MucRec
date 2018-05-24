@@ -1,8 +1,5 @@
 
 
-    Project name: 
-    
-    MucRec 
     
  
     
