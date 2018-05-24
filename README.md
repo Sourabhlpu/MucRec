@@ -4,7 +4,7 @@
     
     MucRec 
     
-   Description: 
+ 
     
     This android app help users identify the music that is playing around buy just a click of a button. It is quite similar to the 
     Shazam app or the SoundHound app. This is a project where I can learn explore new things.
