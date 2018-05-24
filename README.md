@@ -19,7 +19,7 @@
     
      Here you can tap in the middle which will show a nice ripple animation to identify the song
     
-     ![screenshot_1](discover.png)
+     ![screenshot_1](https://github.com/Sourabhlpu/ShazamClone/blob/master/screenshots/details.png)
     
     
     2. Song details Screen
