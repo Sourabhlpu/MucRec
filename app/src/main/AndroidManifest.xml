@@ -5,9 +5,7 @@
     <!-- Start Permission Normal -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -30,8 +28,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".discover.DiscoverActivity"
-            android:theme="@style/AppTheme.Launcher">
-        </activity>
+            android:theme="@style/AppTheme.Launcher"></activity>
         <activity
             android:name=".songdetail.SongDetailActivity"
             android:parentActivityName=".discover.DiscoverActivity">
@@ -45,24 +42,19 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".discover.DiscoverActivity" />
-
         </activity>
-        <activity android:name=".donate.DonateActivity"></activity>
-
+        <activity android:name=".donate.DonateActivity" />
         <activity
             android:name=".IntroActivity"
             android:noHistory="true"
             android:theme="@style/Theme.Intro">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-
+        <activity android:name=".ErrorActivity"></activity>
     </application>
 
 </manifest>

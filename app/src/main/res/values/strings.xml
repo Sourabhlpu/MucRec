@@ -14,7 +14,7 @@
     <string name="ok">Ok</string>
 
 
-      <!-- String for passing extras to the intent that launches song details page -->
+    <!-- String for passing extras to the intent that launches song details page -->
 
     <string name="song_name_extra">songName</string>
     <string name="song_album_extra">albumName</string>

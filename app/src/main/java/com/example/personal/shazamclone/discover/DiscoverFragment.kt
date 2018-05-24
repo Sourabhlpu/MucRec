@@ -90,21 +90,31 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
     override fun showOfflineErrorView() {
 
         Log.d("DiscoverFragment", "Offline Error")
+        error_tv.visibility = View.VISIBLE
+        error_tv.text = "No internet connection"
+
     }
 
     override fun showGenericErrorView() {
 
         Log.d("DiscoverFragment", "Generic Error")
+        error_tv.visibility = View.VISIBLE
+        error_tv.text = "Unknown Error"
+
     }
 
     override fun showNotFoundErrorView() {
 
         Log.d("DiscoverFragment", "Not Found Error")
+        error_tv.text = "Song not found"
+        error_tv.visibility = View.VISIBLE
+
     }
 
     override fun hideErrorViews() {
 
         Log.d("DiscoverFragment", "hide all errors")
+        error_tv.visibility = View.INVISIBLE
     }
 
     override fun openSongDetailPage(song: Song) {
@@ -125,6 +135,8 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
         intent.putExtra(getString(R.string.song_youtube_id), song.youtubeLink)
 
         intent.putExtra(getString(R.string.isrc_id_extra), song.isrc)
+
+        hideIdentifyProgressView()
 
         startActivity(intent)
 
@@ -311,7 +323,11 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
     }
 
     override fun onOfflineError() {
+        hideStopIdentifyButtonView()
+        showStartIdentifyButtonView()
+        hideIdentifyProgressView()
 
+        showOfflineErrorView()
     }
 
     override fun onGenericError() {
@@ -328,11 +344,15 @@ import kotlinx.android.synthetic.main.fragment_discover.view.*
     }
 
     override fun onSongNotFound() {
-        hideStartIdentifyButtonView()
+       /* hideStartIdentifyButtonView()
         showStopIdentifyButtonView()
         showIdentifyProgressView()
         hideErrorViews()
-        showIdentifyProgressView()
+        showIdentifyProgressView()*/
+
+        hideStopIdentifyButtonView()
+        showStartIdentifyButtonView()
+        hideIdentifyProgressView()
 
         showNotFoundErrorView()
     }
