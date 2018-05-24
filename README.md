@@ -34,3 +34,13 @@
     
     ![screenshot_3](https://github.com/Sourabhlpu/ShazamClone/blob/master/screenshots/history.png)
     
+    Libraries Used:
+    
+     1. AcrCloud android sdk to get the metadata of the track that is identified.
+     2. Spinkit for the ripple animation in the discover activity.
+     3. Picasso for network images
+     4. Okhttp for api calls.
+     5. Material Intro: for Intro Screen
+    
+    
+    
