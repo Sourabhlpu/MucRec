@@ -21,31 +21,30 @@
 
     <!-- End Permission Dangerous -->
     <application
+        android:name=".utils.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".utils.App"
         android:theme="@style/AppTheme">
-        <activity android:name=".discover.DiscoverActivity"
-            android:theme="@style/SplashTheme">
-
-
-
+        <activity
+            android:name=".discover.DiscoverActivity"
+            android:theme="@style/AppTheme.Launcher">
         </activity>
         <activity
             android:name=".songdetail.SongDetailActivity"
             android:parentActivityName=".discover.DiscoverActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".discover.DiscoverActivity"/>
+                android:value=".discover.DiscoverActivity" />
         </activity>
-        <activity android:name=".history.HistoryActivity"
+        <activity
+            android:name=".history.HistoryActivity"
             android:parentActivityName=".discover.DiscoverActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".discover.DiscoverActivity"/>
+                android:value=".discover.DiscoverActivity" />
 
         </activity>
         <activity android:name=".donate.DonateActivity"></activity>
@@ -53,7 +52,7 @@
         <activity
             android:name=".IntroActivity"
             android:noHistory="true"
-            android:theme="@style/Theme.Intro" >
+            android:theme="@style/Theme.Intro">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

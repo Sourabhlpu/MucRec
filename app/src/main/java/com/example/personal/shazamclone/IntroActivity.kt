@@ -18,7 +18,7 @@ class IntroActivity : MaterialIntroActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.SplashTheme)
+        setTheme(R.style.Theme_Intro)
         super.onCreate(savedInstanceState)
 
         if(!pref.isFirstTimeLaunch)
