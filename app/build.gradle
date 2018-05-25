@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.example.personal.shazamclone"
+        applicationId "com.example.personal.mucrec"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -39,7 +39,7 @@ android {
             applicationIdSuffix '.dev'
             // The applicationId now becomes "com.mobymagic.shazamclone.dev"
             versionNameSuffix "-dev" // The versionName you define above now have a "-dev" suffix
-            resValue "string", "app_name", "Shazam Clone Dev"
+            resValue "string", "app_name", "MucRec Dev"
             // Changes the app name to "Shazam Clone Dev"
 
             // [Performance optimization] The following configuration limits the "dev" flavor// to using English string resources and xxhdpi screen-density resources.
@@ -51,13 +51,13 @@ android {
             dimension "default"
             applicationIdSuffix '.mock'
             versionNameSuffix "-mock"
-            resValue "string", "app_name", "Shazam Clone Mock"
+            resValue "string", "app_name", "MucRec Mock"
         }
 
         prod {
 
             dimension "default"
-            resValue "string", "app_name", "Shazam Clone"
+            resValue "string", "app_name", "MucRec Clone"
         }
     }
 
