@@ -13,6 +13,12 @@ import kotlinx.android.synthetic.main.song_item.view.*
 
 /**
  * Created by personal on 4/23/2018.
+ * This class defines the adapter for the historyFragment
+ */
+
+/*
+ * the class's constructor accepts the mutable list of songs
+ * and a lambda which takes a songEntity object and returns Unit object
  */
 class HistoryAdapter(private var songs: MutableList<SongEntity>,
                      private val itemClick: (SongEntity) -> Unit) :
@@ -20,20 +26,24 @@ class HistoryAdapter(private var songs: MutableList<SongEntity>,
 
 
 
+    // here we inflate the layout for the list items and the create ViewHolder object
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
 
         val view = LayoutInflater.from(parent.ctx).inflate(song_item,parent,false)
 
+        // return the ViewHolder object passing in the list item view and the lambda
         return ViewHolder(view,itemClick)
     }
 
-    override fun getItemCount(): Int = songs.size
+    override fun getItemCount(): Int = songs.size // returns the count of data items
 
+    // binds the data to the views in the list item layout
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.bindSong(songs[position])
     }
 
+    // and inner view holder class that will hold the reference to the views in the list item layout
     class ViewHolder(view: View, private val itemClick: (SongEntity) -> Unit)
         : RecyclerView.ViewHolder(view) {
 
@@ -62,6 +72,7 @@ class HistoryAdapter(private var songs: MutableList<SongEntity>,
         }
     }
 
+    // method to update the data set
     fun updateDataset(songsList: List<SongEntity>){
 
         songs = songsList.toMutableList()

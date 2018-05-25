@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager
 
 /**
  * Created by personal on 3/21/2018.
+ * A utility class that helps in adding fragments to the activities
  */
 object FragmentUtils {
 

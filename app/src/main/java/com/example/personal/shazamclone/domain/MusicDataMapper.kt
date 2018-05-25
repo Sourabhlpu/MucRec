@@ -12,6 +12,7 @@ import com.example.personal.shazamclone.data.identify.db.room.SongEntity
 class MusicDataMapper{
 
 
+      // this function converts a song object into an SongEntity so that it can be saved into the database
         fun convertSongToEntity(song : Song) : SongEntity {
 
             Log.d("MusicDataMapper", "converting song to entity ${song.name}")
@@ -30,6 +31,7 @@ class MusicDataMapper{
 
 
 
+    // this method converts the identification result into a song object
     fun convertFromDataModel(songIdentificationResult : SongIdentificationResult,
                              vidId : String? = null):Song {
 

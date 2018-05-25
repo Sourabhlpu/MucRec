@@ -7,9 +7,15 @@ import com.example.personal.shazamclone.domain.Song
 
 /**
  * Created by personal on 3/26/2018.
+ * This interface defines the contract between the discoverFragment and discover Presenter
+ * Here we define the methods that will be overriden by the fragment and the presenter.
  */
 
 interface  DiscoverContract{
+
+    //this interface will be implemented by the discover fragment. To enable the fragment to be able
+    // to call the methods of the presenter defined in this contract we make the View extend the
+    // BaseView
 
     interface  View: BaseView<Presenter> {
 
@@ -42,6 +48,7 @@ interface  DiscoverContract{
         fun stopSongIdentifyService()
     }
 
+    //this interface will be implemented by the discover presenter
     interface Presenter: BasePresenter<View> {
 
         // Called when the user clicks on the start button
