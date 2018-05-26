@@ -78,6 +78,7 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
    override fun loadInBackground(): String? {
 
 
+    if (isrc.isNullOrEmpty()) return ""
    // we are calling the method in the presenter to get the album art for the track. We pass the
     // isrc, track and artist name. Most of the time only isrc will be enough but sometimes isrc can
     // be null as wel

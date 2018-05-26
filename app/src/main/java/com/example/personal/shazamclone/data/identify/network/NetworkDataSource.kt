@@ -38,6 +38,8 @@ class NetworkDataSource {
 
     }
 
+    //create a class level map to hold the list of release ids
+    lateinit var releaseIds : MutableMap<String, String>
     // interceptor for all the logging in okHttp
     val interceptor: HttpLoggingInterceptor by lazy { HttpLoggingInterceptor() }
 
@@ -69,12 +71,28 @@ class NetworkDataSource {
             val responseMB: Response = client.newCall(requestBuilderMB(isrc)).execute()
 
             // we got the resonse now we need to parse it and get a release id
-            val id: String = parseResponseMB(responseMB.body()!!.string())
+            val id: String? = parseResponseMB(responseMB.body()!!.string())
+
+            // when music brainz could not find any data for the given isrc
+            if(id.isNullOrEmpty())
+            {
+                return "";
+            }
 
             Log.d("NetworkDataSource", "the id of the album is $id")
 
-            // here we get the image url by using the function and passing the release id we got before
-            imageUrl = requestCoverArtArchive(id)
+
+            imageUrl = requestCoverArtArchive(id!!)
+
+            // when we parsed the response from the music brainz we saved all the release ids in a
+            // class level map so that we can use all those ids to get the cover art if one doesn't give it
+
+            if(imageUrl.isNullOrEmpty()) {
+                for ((key, value) in releaseIds) {
+                    imageUrl = requestCoverArtArchive(value)
+                    if (!imageUrl.isNullOrEmpty()) break
+                }
+            }
 
 
         }
@@ -147,6 +165,8 @@ class NetworkDataSource {
             // check if recording is a json array
             if(recording is JSONArray) {
 
+                // initialize the releaseIds map so that we can use other ids too if one doesn't give the result
+                releaseIds = getFirstReleaseWithRecordingArray(recording)
                 // this method will take recording array and then loop over it to get the first release id
                id = getFirstReleaseWithRecordingArray(recording).values.elementAt(0)
             }
@@ -163,6 +183,8 @@ class NetworkDataSource {
                 //if release is an array
                 if(release is JSONArray)
                 {
+                    // initialize the releaseIds map so that we can use other ids too if one doesn't give the result
+                    releaseIds = getFirstRelease(release)
                     //get the id of the release by using the function and passing the release list
                     id = getFirstRelease(release).values.elementAt(0)
                     //id = releaseList.getJSONArray("release").getJSONObject(0).getString("id")
@@ -220,6 +242,13 @@ class NetworkDataSource {
         Log.d("NetworkDataSource", "the response from cover art is $response")
 
         var small : String = ""
+        if(response[0].equals('<'))
+        {
+            // we did not get the image url for the release
+            return small;
+        }
+
+
 
        try {
 
@@ -239,43 +268,21 @@ class NetworkDataSource {
     // this method will get the json array of releases and retrun a map with date mapped to release id
     private fun getFirstRelease(releases : JSONArray) : MutableMap<String,String> {
 
-        val releaseList = mutableListOf<String>()
-        val releaseIdList = mutableListOf<String>()
-        val resultList = mutableListOf<String>()
-
         val result = mutableMapOf<String, String>()
 
         for(i in 0 until releases.length())
         {
-            releaseList.add(releases.optJSONObject(i).optString("date"))
-            releaseIdList.add(releases.optJSONObject(i).optString("id"))
 
             result.put(releases.optJSONObject(i).optString("date"),
                     releases.optJSONObject(i).optString("id") )
         }
 
-        val firstReleaseDate = releaseList.min()
-
         val sorted = result.toSortedMap()
-        resultList.add(firstReleaseDate!!)
-
-        Log.d("NetworkDataSource", "the first release date is $firstReleaseDate")
-
-        val firstReleaseDateIndex = releaseList.indexOf(firstReleaseDate)
 
 
-
-        val firstReleaseId = releaseIdList.get(firstReleaseDateIndex)
-
-        resultList.add(firstReleaseId)
-
-        Log.d("NetworkDataSource", "the first release id is  $firstReleaseId")
-
-        Log.d("NetworkDataSource", "the result map is ${sorted.toString()}")
-
+        Log.d("NetworkDataSource", "the first release date is ${sorted.firstKey()}")
 
         return sorted
-
     }
 
 
