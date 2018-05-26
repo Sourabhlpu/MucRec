@@ -46,19 +46,19 @@ class DiscoverPresenter: DiscoverContract.Presenter
 
         //initializing the query object
         private lateinit var query: YouTube.Search.List
-        private set
+
 
         // this method initializes the query variable
         private fun initQuery()
         {
             try {
-                query = youtube.search().list("id,snippet")
-                query.key = App.instance.getString(R.string.youtube_api_key)
-                query.type = "video"
-                query.fields = "items(id/videoId,snippet/title)"
+                this.query = youtube.search().list("id,snippet")
+                this.query.key = App.instance.getString(R.string.youtube_api_key)
+                this.query.type = "video"
+                this.query.fields = "items(id/videoId,snippet/title)"
             }catch (e : IOException){
 
-                Log.d("Discover Presenter", "Could not initialize: " + e)
+                Log.d("Discover Presenter", "Could not initialize: " + e.printStackTrace())
             }
         }
 
