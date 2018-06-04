@@ -33,7 +33,8 @@ class NetworkDataSource {
 
         val INC = "inc"
 
-        val INC_VAL = "releases"
+        val INC_VAL = "releases+artist-credits"
+
 
 
     }

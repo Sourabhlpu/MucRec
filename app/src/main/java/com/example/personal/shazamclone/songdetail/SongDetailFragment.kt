@@ -52,7 +52,9 @@ import kotlinx.android.synthetic.main.fragment_song_details.view.*
   rootView.album_name.text = activity!!.intent.extras.getString(getString(R.string.song_album_extra))
 
   //starting the loader
-  loaderManager.initLoader(LOADER_ID, null, this)
+  if(!loaderManager.getLoader<String>(LOADER_ID).isStarted) {
+   loaderManager.initLoader(LOADER_ID, null, this)
+  }
 
 
   return rootView
