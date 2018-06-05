@@ -28,9 +28,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".discover.DiscoverActivity"
-            android:theme="@style/AppTheme.Launcher"></activity>
+            android:theme="@style/AppTheme.Launcher"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"></activity>
         <activity
             android:name=".songdetail.SongDetailActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".discover.DiscoverActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -38,6 +42,8 @@
         </activity>
         <activity
             android:name=".history.HistoryActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".discover.DiscoverActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -54,7 +60,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ErrorActivity"></activity>
+
     </application>
 
 </manifest>
